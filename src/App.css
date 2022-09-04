@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@font-face {
+    font-family: "ES Rebond Grotesque";
+    font-weight: 600;
+    src: url(/public/fonts/ESRebondGrotesque-Semibold.ttf);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    font-size: 16px;
+    padding: 56px 64px;
+    height: 80px;
+
+    border-bottom: 2px solid #F2F2F2;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-wrap {
+    font-family: 'ES Rebond Grotesque';
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.nav-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+}
+
+header button.connect {
+    padding: 10px 16px;
+    height: 40px;
+    background: #8F37FF;
+    border-radius: 12px;
+    border: none;
+
+    cursor: pointer;
+
+    color: #FFFFFF;
+    font-weight: 600;
+    line-height: 1;
+}
+
+header button.menu {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+
+    background: #F2F2F2;
+    border-radius: 12px;
+    border: none;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+}
+
+.icon {
+    width: 24px;
+}
+
+section.container-left {
+    display: flex;
+    height: 100%;
+}
+
+/* .container-left {
+
+} */
+
+h2 {
+  font-size: 24px;
+  padding-bottom: 0;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 64px;
+}
+
+.dataContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 600px;
+}
+
+.header {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.bio {
+  text-align: center;
+  color: gray;
+  margin-top: 16px;
+}
+
+.waveButton {
+  cursor: pointer;
+  margin-top: 16px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgba(155, 89, 182, 0.15);
+  font-size: 14px;
+}
+
+.connected {
+  cursor: default;
+  margin-top: 16px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  font-size: 14px;
+}
+
+.textWrapper {
+	margin-top: 16px;
+}
+
+.textWrapper label {
+	display: block;
+	margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.textWrapper textarea {
+	display: block;
+	box-sizing: border-box;
+	padding: 8px;
+	width: 100%;
+	height: 80px;
+	/* border: none; */
+	border-radius: 5px;
+	font-family: inherit;
+	font-size: 14px;
+}
+
+.waveCard {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  justify-content: flex-start;
+  background-color: rgba(155, 89, 182, 0.15)
+}
