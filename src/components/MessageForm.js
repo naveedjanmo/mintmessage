@@ -13,8 +13,7 @@ const MessageForm = ({
   return (
     <div className='form-wrap'>
       <p>
-        Send any Ethereum address a message as an NFT. This app is free to
-        use—just pay gas
+        Send any Ethereum address a message as an NFT for just the cost of gas!
       </p>
       <form action='' method='get'>
         <div className='input-wrap'>

@@ -7,6 +7,8 @@ function MintButton({ wave, message, isLoading, setIsLoading }) {
   const { address, isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
+  // const buttonClass = () => `mint-button ${isConnected ? 'connected' : ''}`;
+
   if (isConnected) {
     return (
       <button className='mint-button connected' onClick={() => wave(message)}>

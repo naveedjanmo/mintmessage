@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 
 import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
+import MessagePreview from './components/MessagePreview';
 
 const { chains, provider } = configureChains(
   [chain.goerli],
@@ -147,9 +148,6 @@ const App = () => {
             <div className='left'>
               <MessageForm
                 wave={wave}
-                recipientAddress={recipientAddress}
-                message={message}
-                twitter={twitter}
                 onRecipientChange={setRecipientAddress}
                 onMessageChange={setMessage}
                 onTwitterChange={setTwitter}
@@ -157,6 +155,13 @@ const App = () => {
                 loading={setIsLoading}
               />
               <Footer />
+            </div>
+            <div className='right'>
+              <MessagePreview
+                message={message}
+                twitter={twitter}
+                recipientAddress={recipientAddress}
+              />
             </div>
           </section>
         </main>

@@ -91,7 +91,7 @@ main {
 }
 
 .left {
-  width: 100vw;
+  width: 50vw;
   padding: 40px 64px;
 
   display: flex;
@@ -109,7 +109,6 @@ main {
 }
 
 .form-wrap {
-  margin-bottom: 56px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -137,6 +136,10 @@ main {
 
   padding: 0 4px;
   background-color: white;
+}
+
+.input-wrap:last-child {
+  padding-bottom: 16px;
 }
 
 .input {
@@ -214,7 +217,7 @@ main {
   cursor: pointer;
   margin-top: 16px;
   padding: 8px;
-  height: 48px;
+  height: 52px;
   border: 0;
   border-radius: 16px;
   background: #c850c0;
