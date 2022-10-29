@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 
 import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
+import MessagePreviewIpfs from './components/MessagePreviewIpfs';
 import MessagePreview from './components/MessagePreview';
 import IpfsTutorial from './components/IpfsTutorial';
 
@@ -153,10 +154,14 @@ const App = () => {
                 isLoading={isLoading}
                 loading={setIsLoading}
               />
-              {/* <IpfsTutorial /> */}
               <Footer />
             </div>
             <div className='right'>
+              {/* <MessagePreviewIpfs
+                message={message}
+                twitter={twitter}
+                recipientAddress={recipientAddress}
+              /> */}
               <MessagePreview
                 message={message}
                 twitter={twitter}
