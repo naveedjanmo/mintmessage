@@ -21,6 +21,7 @@ import Footer from './components/Footer';
 import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
+import IpfsTutorial from './components/IpfsTutorial';
 
 const { chains, provider } = configureChains(
   [chain.goerli],
@@ -39,9 +40,7 @@ const wagmiClient = createClient({
 });
 
 // TODO
-// - Two connect buttons (see WavePortal)
-// - Improve overall design
-//    - Remove draggable thing on form input, better focus states etc.
+// - Fix drop shadow issue on message export
 // - Improve design
 //   - Improve twitter tag on svg
 //   - Improve responsive design (make svg width responsive)
@@ -154,6 +153,7 @@ const App = () => {
                 isLoading={isLoading}
                 loading={setIsLoading}
               />
+              {/* <IpfsTutorial /> */}
               <Footer />
             </div>
             <div className='right'>

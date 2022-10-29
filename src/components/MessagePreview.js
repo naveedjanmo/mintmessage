@@ -1,37 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import html2canvas from 'html2canvas';
+import { create } from 'ipfs-http-client';
 
-const exportAsImage = async (element, imageFileName) => {
-  const canvas = await html2canvas(element);
-  const image = canvas.toDataURL('image/png', 1.0);
-  downloadImage(image, imageFileName);
+// TODO: Fix drop shadow issue
 
-  const downloadImage = (blob, fileName) => {
-    const fakeLink = window.document.createElement('a');
-    fakeLink.style = 'display:none;';
-    fakeLink.download = fileName;
-
-    fakeLink.href = blob;
-
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-
-    fakeLink.remove();
-  };
-};
+const client = create('https://ipfs.infura.io:5001/api/v0');
 
 const MessagePreview = ({ recipientAddress, message, twitter }) => {
-  const exportRef = useRef();
+  const handleImageDownload = async () => {
+    const element = document.getElementById('print'),
+      canvas = await html2canvas(
+        element,
+        { backgroundColor: 'rgba(0,0,0,0)' }
+        // { scale: 2 }
+      ),
+      data = canvas.toDataURL('image/jpg'),
+      link = document.createElement('a');
+
+    link.href = data;
+    link.download = 'downloaded-image.jpg';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const [fileUrl, updateFileUrl] = useState(``);
+
   return (
-    <div className='message-wrap' ref={exportRef}>
-      <p>From: {recipientAddress}</p>
-      <p>{message}</p>
-      <p>Reply on Twitter: {twitter}</p>
-      <button onClick={() => exportAsImage(exportRef.current, 'test')}>
-        Export
-      </button>
-    </div>
+    <a className='message-wrap' id='print' onClick={handleImageDownload}>
+      <div>
+        <div className='message'>
+          <p>From: {recipientAddress}</p>
+          <p>{message}</p>
+          <p>Reply on Twitter: {twitter}</p>
+        </div>
+      </div>
+    </a>
   );
 };
 
