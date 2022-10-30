@@ -3,7 +3,7 @@ import React from 'react';
 const Logo = function () {
   return (
     <div className='logo-wrap'>
-      <text>🍃 mintmessage</text>
+      <h1>🍃 mintmessage</h1>
     </div>
   );
 };

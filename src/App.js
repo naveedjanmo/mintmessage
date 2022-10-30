@@ -25,8 +25,11 @@ import MessagePreview from './components/MessagePreview';
 import IpfsTutorial from './components/IpfsTutorial';
 
 const { chains, provider } = configureChains(
-  [chain.goerli],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [
+    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_ID }),
+    publicProvider(),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
@@ -57,79 +60,79 @@ const App = () => {
   const [twitter, setTwitter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const contractAddress = '0xce863A6B77a8847A850390da094608ef2976F47d';
-  const contractABI = abi.abi;
+  // const contractAddress = '0xce863A6B77a8847A850390da094608ef2976F47d';
+  // const contractABI = abi.abi;
 
-  const checkIfWalletIsConnected = async () => {
-    try {
-      const { ethereum } = window;
+  // const checkIfWalletIsConnected = async () => {
+  //   try {
+  //     const { ethereum } = window;
 
-      if (!ethereum) {
-        console.log('Make sure you have metamask!');
-        return;
-      } else {
-        console.log('We have the ethereum object', ethereum);
-      }
+  //     if (!ethereum) {
+  //       console.log('Make sure you have metamask!');
+  //       return;
+  //     } else {
+  //       console.log('We have the ethereum object', ethereum);
+  //     }
 
-      const accounts = await ethereum.request({ method: 'eth_accounts' });
+  //     const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-      if (accounts.length !== 0) {
-        const account = accounts[0];
-        console.log('Found an authorized account:', account);
-        setCurrentAccount(account);
-      } else {
-        console.log('No authorized account found');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (accounts.length !== 0) {
+  //       const account = accounts[0];
+  //       console.log('Found an authorized account:', account);
+  //       setCurrentAccount(account);
+  //     } else {
+  //       console.log('No authorized account found');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const wave = async () => {
-    try {
-      setIsLoading(true);
-      console.log(isLoading);
-      const { ethereum } = window;
+  // const wave = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     console.log(isLoading);
+  //     const { ethereum } = window;
 
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const wavePortalContract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer
-        );
+  //     if (ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(ethereum);
+  //       const signer = provider.getSigner();
+  //       const wavePortalContract = new ethers.Contract(
+  //         contractAddress,
+  //         contractABI,
+  //         signer
+  //       );
 
-        let count = await wavePortalContract.getTotalWaves();
-        console.log('Retrieved total wave count...', count.toNumber());
+  //       let count = await wavePortalContract.getTotalWaves();
+  //       console.log('Retrieved total wave count...', count.toNumber());
 
-        const waveTxn = await wavePortalContract.wave(message);
-        // console.log(isLoading);
+  //       const waveTxn = await wavePortalContract.wave(message);
+  //       // console.log(isLoading);
 
-        console.log('Mining...', waveTxn.hash);
-        await waveTxn.wait();
+  //       console.log('Mining...', waveTxn.hash);
+  //       await waveTxn.wait();
 
-        console.log('Mined -- ', waveTxn.hash);
+  //       console.log('Mined -- ', waveTxn.hash);
 
-        count = await wavePortalContract.getTotalWaves();
-        console.log('Retrieved total wave count...', count.toNumber());
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //       count = await wavePortalContract.getTotalWaves();
+  //       console.log('Retrieved total wave count...', count.toNumber());
+  //     } else {
+  //       console.log("Ethereum object doesn't exist!");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   // function formatDate(timestamp) {
   //   return dayjs(timestamp).format('DD MMMM YYYY');
   // }
 
-  useEffect(() => {
-    checkIfWalletIsConnected();
-  }, []);
+  // useEffect(() => {
+  //   checkIfWalletIsConnected();
+  // }, []);
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -147,7 +150,7 @@ const App = () => {
           <section className='content-wrap'>
             <div className='left'>
               <MessageForm
-                wave={wave}
+                // wave={wave}
                 onRecipientChange={setRecipientAddress}
                 onMessageChange={setMessage}
                 onTwitterChange={setTwitter}
@@ -157,16 +160,16 @@ const App = () => {
               <Footer />
             </div>
             <div className='right'>
-              {/* <MessagePreviewIpfs
-                message={message}
-                twitter={twitter}
-                recipientAddress={recipientAddress}
-              /> */}
-              <MessagePreview
+              <MessagePreviewIpfs
                 message={message}
                 twitter={twitter}
                 recipientAddress={recipientAddress}
               />
+              {/* <MessagePreview
+                message={message}
+                twitter={twitter}
+                recipientAddress={recipientAddress}
+              /> */}
             </div>
           </section>
         </main>
