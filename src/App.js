@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import React, { useState } from 'react';
+// import { ethers } from 'ethers';
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -8,21 +8,18 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 import './styles/base.css';
 import './styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
-import Logo from './components/Logo';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 
-import abi from './utils/WavePortal.json';
+// import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
-import MessagePreviewIpfs from './components/MessagePreviewIpfs';
 import MessagePreview from './components/MessagePreview';
-import IpfsTutorial from './components/IpfsTutorial';
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
@@ -44,17 +41,18 @@ const wagmiClient = createClient({
 });
 
 // TODO
-// - Fix drop shadow issue on message export
-// - Improve design
-//   - Improve twitter tag on svg
-//   - Improve responsive design (make svg width responsive)
-// - Add max character count to InputLarge
-// - Add pre-filled @ to twitter input and an auto removal of @ if included by user
-// ...
-// - Smart contract - svg or ipfs?, see WB vids if need canvas save method
+// v1
+// - Write and deploy smart contract (basically the same contract as BS loot project but with:
+//   (1) update metadata link instead of update text (2) a way to adjust mint price, post-deploy)
+// - Style message preview (fixed w/h to ensure collection on OS is consistent)
+// - Hook up mint button per sudo code in MessagePreview.js
+// v2
+// - Limit the amount of characters message input, add an indicator
+// - Add prefilled @/link to twitter input
+// - Add sanitize for Twitter input (e.g. remove @ if input by user)
 
 const App = () => {
-  const [currentAccount, setCurrentAccount] = useState('');
+  // const [currentAccount, setCurrentAccount] = useState('');
   const [message, setMessage] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
   const [twitter, setTwitter] = useState('');
@@ -160,7 +158,7 @@ const App = () => {
               <Footer />
             </div>
             <div className='right'>
-              <MessagePreviewIpfs
+              <MessagePreview
                 message={message}
                 twitter={twitter}
                 recipientAddress={recipientAddress}
