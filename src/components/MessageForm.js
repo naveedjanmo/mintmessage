@@ -9,7 +9,14 @@ const MessageForm = ({
   onMessageChange,
   isLoading,
   setIsLoading,
+  twitter,
+  setTwitter,
 }) => {
+  const validateTwitter = (e) => {
+    const newTwitter = e.target.value.replace(/[^A-Za-z0-9_]/g, '');
+    setTwitter(newTwitter);
+  };
+
   return (
     <div className='form-wrap'>
       <p>
@@ -34,6 +41,7 @@ const MessageForm = ({
             placeholder={
               "Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal."
             }
+            maxLength='320'
             onChange={(e) => onMessageChange(e.target.value)}
           />
         </div>
@@ -43,8 +51,9 @@ const MessageForm = ({
           <input
             id='twitter'
             className='input small'
-            placeholder='@naveedjanmo'
-            onChange={(e) => onTwitterChange(e.target.value)}
+            placeholder='naveedjanmo'
+            value={twitter}
+            onChange={validateTwitter}
           ></input>
         </div>
       </form>
