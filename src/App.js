@@ -4,11 +4,17 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   lightTheme,
+  useConnectModal,
 } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import {
+  chain,
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useAccount,
+} from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-// import dayjs from 'dayjs';
 
 import './styles/base.css';
 import './styles/globals.css';
@@ -20,9 +26,10 @@ import Footer from './components/Footer';
 // import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
+import MintButton from './components/MintButton';
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.goerli],
   [
     alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_ID }),
     publicProvider(),
@@ -44,18 +51,21 @@ const wagmiClient = createClient({
 // v1
 // - Write and deploy smart contract (basically the same contract as BS loot project but with:
 //   (1) update metadata link instead of update text (2) a way to adjust mint price, post-deploy)
-// - Style message preview (fixed w/h to ensure collection on OS is consistent)
 // - Hook up mint button per sudo code in MessagePreview.js
 // v2
-// - Limit the amount of characters message input, add an indicator
-// - Add prefilled @/link to twitter input
-// - Add sanitize for Twitter input (e.g. remove @ if input by user)
+// - Add a character count indicator to message input
+// - Add ens support
+// - Disable forms until wallet connected / add UX to achieve this UB
 
 const App = () => {
   // const [currentAccount, setCurrentAccount] = useState('');
-  const [message, setMessage] = useState('');
-  const [recipientAddress, setRecipientAddress] = useState('');
-  const [twitter, setTwitter] = useState('');
+  const [message, setMessage] = useState(
+    `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
+  );
+  const [recipientAddress, setRecipientAddress] = useState(
+    '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb'
+  );
+  const [twitter, setTwitter] = useState('naveedjanmo');
   const [isLoading, setIsLoading] = useState(false);
 
   // const contractAddress = '0xce863A6B77a8847A850390da094608ef2976F47d';
@@ -124,10 +134,6 @@ const App = () => {
   //   }
   // };
 
-  // function formatDate(timestamp) {
-  //   return dayjs(timestamp).format('DD MMMM YYYY');
-  // }
-
   // useEffect(() => {
   //   checkIfWalletIsConnected();
   // }, []);
@@ -154,6 +160,8 @@ const App = () => {
                 onTwitterChange={setTwitter}
                 isLoading={isLoading}
                 loading={setIsLoading}
+                twitter={twitter}
+                setTwitter={setTwitter}
               />
               <Footer />
             </div>
@@ -163,11 +171,6 @@ const App = () => {
                 twitter={twitter}
                 recipientAddress={recipientAddress}
               />
-              {/* <MessagePreview
-                message={message}
-                twitter={twitter}
-                recipientAddress={recipientAddress}
-              /> */}
             </div>
           </section>
         </main>
