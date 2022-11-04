@@ -51,6 +51,7 @@ const wagmiClient = createClient({
 // v1
 // - Write and deploy smart contract (basically the same contract as BS loot project but with:
 //   (1) update metadata link instead of update text (2) a way to adjust mint price, post-deploy)
+//      - Dont use string to store ipfs token id, its much more expensive to store strings in Soldity/byte
 // - Hook up mint button per sudo code in MessagePreview.js
 // v2
 // - Add a character count indicator to message input
