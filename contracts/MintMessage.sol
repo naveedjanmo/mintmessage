@@ -13,16 +13,55 @@ contract MintMessage is ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    // ======================== Events ========================
+
     /**
      * @notice Emitted when a MintMessage is minted.
      */
     event NewMintMessageMinted(address sender, uint256 tokenId);
 
-    constructor() public ERC721("MintMessage", "MSG") {
 
+    // ======================= Constants =======================
+
+    /**
+     * @notice Mint price set to 0 by default.
+     */
+    uint256 mintPrice = 0 ether;
+
+    // ====================== Constructor ======================
+
+    constructor() public ERC721("MintMessage", "MNTMSG") {
+        owner = payable(msg.sender);
     }
 
-    function makeMintMessage() public {
+    // ========================= Utils =========================
+
+    /**
+     * @notice Gives owner ability to update mint price
+     */
+    function updateMintPrice(uint _mintPrice) public payable {
+        require(owner == msg.sender, "Only owner can update mint price.");
+        mintPrice = _mintPrice;
+    }
+
+    /**
+     * @notice Returns the mint price
+     */
+    function getMintPrice() public view returns (uint256) {
+        return mintPrice;
+    }
+
+    // ======================== Minting ========================
+
+    function createToken(string memory tokenURI) public returns (uint){
+        _tokenIs.increment();
+        uint256 newItemId = _tokenIds.current();
+        
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+        setApprovalForAll(contractAddress, true)
+        return newItemId;
+
         string memory ipfsId;
 
         string memory json = Base64.encode(
@@ -60,14 +99,3 @@ contract MintMessage is ERC721 {
 
 
 }
-
-
-// Import OZ ownable
-// Fetch string from app - add string to metadata
-//      listen for an event so that app knows when to screenshot and upload to ipfs
-// Mint
-// Transferable
-// Burnable
-// Possible to update price, only owner
-
-// check how things will look across all marketplaces`
