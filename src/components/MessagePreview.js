@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useProvider, useAccount } from 'wagmi';
+import React from 'react';
+import { useAccount } from 'wagmi';
 
 import { formatDate, formatAddress } from '../utils/utils';
 
 import twitterIcon from '../twitter-icon.svg';
 
-const MessagePreview = ({
-  message,
-  twitter,
-  recipientAddress,
-  isLoading,
-  setIsLoading,
-  createNFT,
-}) => {
+const MessagePreview = ({ message, twitter }) => {
   const placeholderAddress = '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb';
 
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
 
   return (
     <>

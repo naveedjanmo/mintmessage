@@ -3,8 +3,8 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import LoadingIndicator from './LoadingIndicator';
 
-function MintButton({ wave, message, isLoading, setIsLoading, createNFT }) {
-  const { address, isConnected } = useAccount();
+function MintButton({ isLoading, createNFT }) {
+  const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
   // const buttonClass = () => `mint-button ${isConnected ? 'connected' : ''}`;

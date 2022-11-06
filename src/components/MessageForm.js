@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MintButton from './MintButton';
 
 const MessageForm = ({
-  message,
-  wave,
+  recipientAddress,
   onRecipientChange,
-  onTwitterChange,
+  message,
   onMessageChange,
-  isLoading,
-  setIsLoading,
   twitter,
   setTwitter,
+  isLoading,
   createNFT,
 }) => {
   const validateTwitter = (e) => {
@@ -29,7 +27,7 @@ const MessageForm = ({
           <input
             id='recipient-address'
             className='input small'
-            placeholder='0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb'
+            placeholder={recipientAddress}
             onChange={(e) => onRecipientChange(e.target.value)}
           />
         </div>
@@ -39,9 +37,7 @@ const MessageForm = ({
           <textarea
             id='message'
             className='input large'
-            placeholder={
-              "Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal."
-            }
+            placeholder={message}
             maxLength='320'
             onChange={(e) => onMessageChange(e.target.value)}
           />
@@ -52,19 +48,12 @@ const MessageForm = ({
           <input
             id='twitter'
             className='input small'
-            placeholder='naveedjanmo'
-            value={twitter}
+            placeholder={twitter}
             onChange={validateTwitter}
           ></input>
         </div>
       </form>
-      <MintButton
-        wave={wave}
-        message={message}
-        isLoading={isLoading}
-        loading={setIsLoading}
-        createNFT={createNFT}
-      />
+      <MintButton isLoading={isLoading} createNFT={createNFT} />
     </div>
   );
 };

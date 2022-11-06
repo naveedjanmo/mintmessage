@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-// import { ethers } from 'ethers';
-import {
-  getDefaultWallets,
-  RainbowKitProvider,
-  lightTheme,
-  useConnectModal,
-} from '@rainbow-me/rainbowkit';
+
+import { ethers } from 'ethers';
 import {
   chain,
   configureChains,
@@ -15,40 +10,29 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+} from '@rainbow-me/rainbowkit';
+import { create } from 'ipfs-http-client';
+import { Buffer } from 'buffer';
+import html2canvas from 'html2canvas';
 
 import './styles/base.css';
 import './styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
 import Nav from './components/Nav';
-import Footer from './components/Footer';
-
-// import abi from './utils/WavePortal.json';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
-import MintButton from './components/MintButton';
-import { ethers } from 'ethers';
-import { create } from 'ipfs-http-client';
-import { Buffer } from 'buffer';
-import html2canvas from 'html2canvas';
+import Footer from './components/Footer';
 
+import { formatAddress } from './utils/utils';
 import { mintMessageAddress } from './utils/config';
 import MintMessage from './utils/MintMessage.json';
 
-/* IPFS */
-const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
-const projectSecret = process.env.REACT_APP_INFURA_KEY;
-const auth =
-  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
-const client = create({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https',
-  headers: {
-    authorization: auth,
-  },
-});
-
+/* WAGMI Config */
 const { chains, provider } = configureChains(
   [chain.goerli],
   [
@@ -68,35 +52,47 @@ const wagmiClient = createClient({
   provider,
 });
 
+/* IPFS Config */
+const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
+const projectSecret = process.env.REACT_APP_INFURA_KEY;
+const auth =
+  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+const client = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  headers: {
+    authorization: auth,
+  },
+});
+
 // TODO
-// v1
-// - Write and deploy smart contract (basically the same contract as BS loot project but with:
-//   (1) update metadata link instead of update text (2) a way to adjust mint price, post-deploy)
-//      - Dont use string to store ipfs token id, its much more expensive to store strings in Soldity/byte
-// - Hook up mint button per sudo code in MessagePreview.js
+// - Update createToken in contract to auto transfer to recipientAddress post-mint
+//    - Do I need to create an explicit transfer function? I don't think so
+// - Figure out how to check gas and how much this will cost on mainnet (bear and bull market)
+// - Figure out how to stop someone from spamming the mint button - infura will charge at a certain point
+//    - Figure out how/if I can clear infura ipfs pins
+// - Fix dot env stuff
+// - Fix title of NFTs on marketplaces - metadata
+// - Check that images are loading across marketplaces
+// - Improve image design - remove background
 // v2
 // - Add a character count indicator to message input
 // - Add ens support
-// - Disable forms until wallet connected / add UX to achieve this UB
+// - Disable forms until wallet connected / add UX to achieve this behavior
 
 const App = () => {
-  // const [currentAccount, setCurrentAccount] = useState('');
-  const [message, setMessage] = useState(
-    `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
-  );
+  const { address } = useAccount();
+  const [isLoading, setIsLoading] = useState(false);
   const [recipientAddress, setRecipientAddress] = useState(
     '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb'
   );
+  const [message, setMessage] = useState(
+    `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
+  );
   const [twitter, setTwitter] = useState('naveedjanmo');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [formInput, updateFormInput] = useState({
-    name: 'MintMessage',
-    description: 'A message from across the ether.',
-  });
 
   async function createNFT() {
-    const { name, description } = formInput;
     const { ethereum } = window;
 
     try {
@@ -120,10 +116,12 @@ const App = () => {
       // setFileUrl(url);
 
       /* Create NFT metadata and upload to IPFS */
-      if (!name || !description || !url) return;
+      if (!url) return;
       const data = JSON.stringify({
-        name,
-        description,
+        name: 'MintMessage',
+        description: `You received a message from ${formatAddress(
+          address
+        )} via mintmessage.xyz.`,
         image: url,
       });
       added = await client.add(data);
@@ -150,6 +148,8 @@ const App = () => {
     } catch (error) {
       console.log(error);
     } finally {
+      // TODO: Make this work
+      // console.log(`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/11`);
       setIsLoading(false);
     }
   }
@@ -170,26 +170,20 @@ const App = () => {
           <section className='content-wrap'>
             <div className='left'>
               <MessageForm
-                // wave={wave}
+                recipientAddress={recipientAddress}
                 onRecipientChange={setRecipientAddress}
+                message={message}
                 onMessageChange={setMessage}
-                onTwitterChange={setTwitter}
-                isLoading={isLoading}
-                loading={setIsLoading}
                 twitter={twitter}
                 setTwitter={setTwitter}
+                onTwitterChange={setTwitter}
+                isLoading={isLoading}
                 createNFT={createNFT}
               />
               <Footer />
             </div>
             <div className='right'>
-              <MessagePreview
-                message={message}
-                twitter={twitter}
-                recipientAddress={recipientAddress}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
+              <MessagePreview message={message} twitter={twitter} />
             </div>
           </section>
         </main>
