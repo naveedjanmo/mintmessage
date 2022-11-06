@@ -27,6 +27,27 @@ import Footer from './components/Footer';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import MintButton from './components/MintButton';
+import { ethers } from 'ethers';
+import { create } from 'ipfs-http-client';
+import { Buffer } from 'buffer';
+import html2canvas from 'html2canvas';
+
+import { mintMessageAddress } from './utils/config';
+import MintMessage from './utils/MintMessage.json';
+
+/* IPFS */
+const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
+const projectSecret = process.env.REACT_APP_INFURA_KEY;
+const auth =
+  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+const client = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  headers: {
+    authorization: auth,
+  },
+});
 
 const { chains, provider } = configureChains(
   [chain.goerli],
@@ -69,75 +90,69 @@ const App = () => {
   const [twitter, setTwitter] = useState('naveedjanmo');
   const [isLoading, setIsLoading] = useState(false);
 
-  // const contractAddress = '0xce863A6B77a8847A850390da094608ef2976F47d';
-  // const contractABI = abi.abi;
+  const [formInput, updateFormInput] = useState({
+    name: 'MintMessage',
+    description: 'A message from across the ether.',
+  });
 
-  // const checkIfWalletIsConnected = async () => {
-  //   try {
-  //     const { ethereum } = window;
+  async function createNFT() {
+    const { name, description } = formInput;
+    const { ethereum } = window;
 
-  //     if (!ethereum) {
-  //       console.log('Make sure you have metamask!');
-  //       return;
-  //     } else {
-  //       console.log('We have the ethereum object', ethereum);
-  //     }
+    try {
+      setIsLoading(true);
+      /* Pick and export div as image */
+      const element = document.getElementById('message-export'),
+        canvas = await html2canvas(element, {
+          backgroundColor: 'rgba(0,0,0,0)',
+          scale: 3,
+        }),
+        file = canvas.toDataURL('image/jpg'),
+        link = document.createElement('a');
+      link.href = file;
 
-  //     const accounts = await ethereum.request({ method: 'eth_accounts' });
+      /* Upload image to IPFS and store link in state */
+      let added = await client.add(file, {
+        progress: (prog) => console.log(`received: ${prog}`),
+      });
+      let url = `https://infura-ipfs.io/ipfs/${added.path}`; // Image URL
+      console.log(`Image URL: ${url}`);
+      // setFileUrl(url);
 
-  //     if (accounts.length !== 0) {
-  //       const account = accounts[0];
-  //       console.log('Found an authorized account:', account);
-  //       setCurrentAccount(account);
-  //     } else {
-  //       console.log('No authorized account found');
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      /* Create NFT metadata and upload to IPFS */
+      if (!name || !description || !url) return;
+      const data = JSON.stringify({
+        name,
+        description,
+        image: url,
+      });
+      added = await client.add(data);
+      url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
+      console.log(`NFT URL: ${url}`);
 
-  // const wave = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     console.log(isLoading);
-  //     const { ethereum } = window;
+      /* Pop wallet and run createToken */
+      // TODO: Update createToken in contract to send to recipientAddress post-mint
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          mintMessageAddress,
+          MintMessage.abi,
+          signer
+        );
 
-  //     if (ethereum) {
-  //       const provider = new ethers.providers.Web3Provider(ethereum);
-  //       const signer = provider.getSigner();
-  //       const wavePortalContract = new ethers.Contract(
-  //         contractAddress,
-  //         contractABI,
-  //         signer
-  //       );
-
-  //       let count = await wavePortalContract.getTotalWaves();
-  //       console.log('Retrieved total wave count...', count.toNumber());
-
-  //       const waveTxn = await wavePortalContract.wave(message);
-  //       // console.log(isLoading);
-
-  //       console.log('Mining...', waveTxn.hash);
-  //       await waveTxn.wait();
-
-  //       console.log('Mined -- ', waveTxn.hash);
-
-  //       count = await wavePortalContract.getTotalWaves();
-  //       console.log('Retrieved total wave count...', count.toNumber());
-  //     } else {
-  //       console.log("Ethereum object doesn't exist!");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkIfWalletIsConnected();
-  // }, []);
+        let transaction = await contract.createToken(url);
+        console.log('Mining...');
+        await transaction.wait();
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -163,6 +178,7 @@ const App = () => {
                 loading={setIsLoading}
                 twitter={twitter}
                 setTwitter={setTwitter}
+                createNFT={createNFT}
               />
               <Footer />
             </div>
@@ -171,6 +187,8 @@ const App = () => {
                 message={message}
                 twitter={twitter}
                 recipientAddress={recipientAddress}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             </div>
           </section>

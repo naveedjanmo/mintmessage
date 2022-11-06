@@ -3,7 +3,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import LoadingIndicator from './LoadingIndicator';
 
-function MintButton({ wave, message, isLoading, setIsLoading }) {
+function MintButton({ wave, message, isLoading, setIsLoading, createNFT }) {
   const { address, isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -11,7 +11,7 @@ function MintButton({ wave, message, isLoading, setIsLoading }) {
 
   if (isConnected) {
     return (
-      <button className='mint-button connected' onClick={() => wave(message)}>
+      <button className='mint-button connected' onClick={createNFT}>
         {isLoading ? <LoadingIndicator /> : 'Mint'}
       </button>
     );

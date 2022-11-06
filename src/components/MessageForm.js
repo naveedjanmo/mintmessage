@@ -11,6 +11,7 @@ const MessageForm = ({
   setIsLoading,
   twitter,
   setTwitter,
+  createNFT,
 }) => {
   const validateTwitter = (e) => {
     const newTwitter = e.target.value.replace(/[^A-Za-z0-9_]/g, '');
@@ -62,6 +63,7 @@ const MessageForm = ({
         message={message}
         isLoading={isLoading}
         loading={setIsLoading}
+        createNFT={createNFT}
       />
     </div>
   );
