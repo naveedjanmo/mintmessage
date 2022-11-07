@@ -36,9 +36,9 @@ a {
 }
 
 main {
-  height: 100vh;
-  flex-direction: column;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
 }
 
 .nav-wrap {
@@ -52,6 +52,9 @@ main {
   height: 80px;
 
   border-bottom: 2px solid #f2f2f2;
+
+  background: #fff;
+  z-index: 1;
 
   display: flex;
   flex-direction: row;
@@ -76,26 +79,43 @@ main {
 }
 
 .content-wrap {
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
   flex-grow: 1;
 }
 
 .left {
-  width: 50vw;
-  padding: 40px 64px;
+  position: fixed;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: auto;
+
+  padding: 128px 64px 40px 64px;
+
+  height: 100vh;
+  width: 50vw;
+  left: 0;
+  top: 0;
 }
 
 .right {
+  position: fixed;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
+  padding-top: 80px;
+
+  height: 100vh;
   width: 50vw;
+  bottom: 0;
+  margin: 0;
+  right: 0;
+
+  /* width: 50vw; */
   background-color: #f2f2f2;
 }
 
@@ -195,6 +215,8 @@ main {
   flex-direction: row;
   justify-content: space-between;
 
+  margin-top: 24px;
+
   font-size: 14px;
   font-weight: 400;
   color: #969696;
@@ -244,19 +266,34 @@ main {
   height: 380px;
   background-color: #fff;
   border-radius: 16px;
-  z-index: 1;
+  /* z-index: 1; */
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
-  /* border: 6px solid #f2f2f2; */
   overflow: hidden;
+
+  outline: 1px solid #dedede;
+  outline-offset: -1px;
 }
+
+/* .message-export {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+  border: 20px solid #f00;
+}
+
+.message-export + .message-wrap {
+  border: 10px solid red;
+} */
 
 .message-header {
   font-family: 'ES Rebond Grotesque';
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
 
   padding: 16px 0;
   background: #c850c0;
+  outline: 2px solid #c850c0;
 
   display: flex;
   flex-direction: column;
@@ -275,7 +312,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -302,7 +339,7 @@ main {
 
 .message-message {
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
   line-height: 150%;
 }
@@ -316,7 +353,7 @@ main {
   align-items: center;
 
   gap: 8px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .message-footer p:first-of-type {
@@ -336,13 +373,13 @@ main {
   border-radius: 100px;
 
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
 
   color: #7e7e7e;
 }
 
 .tag img {
-  height: 12px;
+  height: 10px;
 }
 
 .tag span {
@@ -351,14 +388,18 @@ main {
 
 @media (max-width: 1024px) {
   .content-wrap {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
 
   .left {
+    position: relative;
     width: 100vw;
+    overflow: hidden;
+    padding-top: 40px;
   }
 
   .right {
+    position: relative;
     width: 100vw;
     padding: 40px 64px;
   }

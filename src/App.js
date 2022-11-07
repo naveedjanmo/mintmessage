@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 
 import { ethers } from 'ethers';
-import {
-  chain,
-  configureChains,
-  createClient,
-  WagmiConfig,
-  useAccount,
-} from 'wagmi';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import {
@@ -28,7 +22,6 @@ import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
 
-import { formatAddress } from './utils/utils';
 import { mintMessageAddress } from './utils/config';
 import MintMessage from './utils/MintMessage.json';
 
@@ -67,32 +60,32 @@ const client = create({
 });
 
 // TODO
-// - Figure out how to check gas and how much this will cost on mainnet (bear and bull market)
-//    - Wint3r shared something the other day about checking gas score
-// - Figure out how to stop someone from spamming the mint button - infura will charge at a certain point
-// - Fix dot env stuff
-// - Fix title of NFTs on marketplaces - metadata
-// - Validate address form field
-//    - And disable if no address present
-// - Message design
-//    - Check that images are loading across marketplaces
-//    - Improve image design - remove background, make text bigger, make more like lens NFTs
-//    - Check if its possible to fuck with the image to make it look diff on mplaces
-// FINALS
-// - Clear IPFS pins on infura
+// - Contract
+//    - Figure out how to check gas and how much this will cost on mainnet (how much in bear and bull market?)
+//        - W1nt3r shared something the other day about checking gas score
+//    - Add royalty - see divergence contracts for royalty standard impl.
+//    - Run tests - see OZ docs for guide
+// - UI
+//    - Figure out how to improve image quality - use svg instead?
+//    - Check that images are loading across all marketplaces (OS, LR, X2, RA)
+// - UX
+//    - Figure out how to stop someone from spamming the mint button
+//    - Validate address form field (disable if no address present)
+//    - Check if its possible to fuck with the image to make it look diff on export
+// - Launch to production
+//    - Clear IPFS pins on infura
 // v2
 // - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
-// - Disable forms until wallet connected / add UX to achieve this behavior
-// - Flip message on mint for success message
+// - Disable forms until wallet connected / add alt. UX to achieve this behavior
+// - Flip message on mint and reveal success message
 //    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88
 //    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
 
 const App = () => {
-  const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
-  const [toAddress, setToAddress] = useState();
+  const [toAddress, setToAddress] = useState('');
   const [message, setMessage] = useState(
     `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
   );
@@ -107,7 +100,7 @@ const App = () => {
       const element = document.getElementById('message-export'),
         canvas = await html2canvas(element, {
           backgroundColor: 'rgba(0,0,0,0)',
-          scale: 3,
+          scale: 5,
         }),
         file = canvas.toDataURL('image/png'),
         link = document.createElement('a');
@@ -119,29 +112,27 @@ const App = () => {
       // link.click();
       // document.body.removeChild(link);
 
-      /* Upload image to IPFS and store link in state */
-      let added = await client.add(file, {
-        progress: (prog) => console.log(`received: ${prog}`),
-      });
-      let url = `https://infura-ipfs.io/ipfs/${added.path}`; // Image URL
-      console.log(`Image URL: ${url}`);
+      /* Upload image to IPFS (old) */
+      // let added = await client.add(file, {
+      //   progress: (prog) => console.log(`received: ${prog}`),
+      // });
+      // let url = `https://infura-ipfs.io/ipfs/${added.path}`; // Image URL
+      // console.log(`Image URL: ${url}`);
       // setFileUrl(url);
 
-      /* Create NFT metadata and upload to IPFS */
-      if (!url) return;
+      /* Create NFT metadata, include png base64 and upload to IPFS */
+      if (!file) return;
       const data = JSON.stringify({
-        name: 'mintmessage',
-        description: `You received a message from ${formatAddress(
-          address
-        )} via mintmessage.xyz.`,
-        image: url,
+        name: 'You received a mintmessage!',
+        description: 'Message sent via mintmessage',
+        external_url: 'https://mintmessage.xyz',
+        image: file,
       });
-      added = await client.add(data);
-      url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
+      const added = await client.add(data);
+      const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
       console.log(`NFT URL: ${url}`);
 
       /* Pop wallet and run createToken */
-      // TODO: Update createToken in contract to send to toAddress post-mint
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();

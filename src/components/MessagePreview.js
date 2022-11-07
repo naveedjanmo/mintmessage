@@ -20,7 +20,11 @@ const MessagePreview = ({ message, twitter, toAddress }) => {
               <div className='from-left'>
                 <p>From</p>
                 <p>
-                  {address ? formatAddress(address) : formatAddress(toAddress)}
+                  {address
+                    ? formatAddress(address)
+                    : formatAddress(
+                        '0x000000000000000000000000000000000000dEaD'
+                      )}
                 </p>
               </div>
               <div className='from-right'>{formatDate(new Date())}</div>
