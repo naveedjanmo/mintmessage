@@ -84,14 +84,18 @@ const client = create({
 // - Flip message on mint and reveal success message
 //    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88
 //    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
+//    - https://www.youtube.com/watch?v=GOuwOI-WSkE&ab_channel=PedroTech
+// - Load animation? https://codesandbox.io/s/uotor?module=%2Fsrc%2FExample.tsx
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [toAddress, setToAddress] = useState('');
   const [message, setMessage] = useState(
-    `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
+    `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
   );
   const [twitter, setTwitter] = useState('naveedjanmo');
+  const [isMinted, setIsMinted] = useState(false);
+  const placeholderAddress = '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb';
 
   async function createNFT() {
     const { ethereum } = window;
@@ -155,6 +159,7 @@ const App = () => {
     } finally {
       // TODO: Make this work
       // console.log(`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/11`);
+      setIsMinted(true);
       setIsLoading(false);
     }
   }
@@ -184,6 +189,7 @@ const App = () => {
                 onTwitterChange={setTwitter}
                 isLoading={isLoading}
                 createNFT={createNFT}
+                placeholderAddress={placeholderAddress}
               />
               <Footer />
             </div>
@@ -192,6 +198,8 @@ const App = () => {
                 message={message}
                 twitter={twitter}
                 toAddress={toAddress}
+                isCardFlipped={isMinted}
+                placeholderAddress={placeholderAddress}
               />
             </div>
           </section>

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
-
 import { formatDate, formatAddress } from '../utils/utils';
-
 import twitterIcon from '../twitter-icon.svg';
+// import { motion } from 'framer-motion';
 
-const MessagePreview = ({ message, twitter, toAddress }) => {
+const MessagePreview = ({ message, twitter, placeholderAddress, isMinted }) => {
   const { address } = useAccount();
 
   return (
@@ -22,9 +21,7 @@ const MessagePreview = ({ message, twitter, toAddress }) => {
                 <p>
                   {address
                     ? formatAddress(address)
-                    : formatAddress(
-                        '0x0000000000000000000000000000000000000000'
-                      )}
+                    : formatAddress(placeholderAddress)}
                 </p>
               </div>
               <div className='from-right'>{formatDate(new Date())}</div>

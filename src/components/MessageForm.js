@@ -10,6 +10,7 @@ const MessageForm = ({
   setTwitter,
   isLoading,
   createNFT,
+  placeholderAddress,
 }) => {
   const validateTwitter = (e) => {
     const newTwitter = e.target.value.replace(/[^A-Za-z0-9_]/g, '');
@@ -27,7 +28,7 @@ const MessageForm = ({
           <input
             id='to-address'
             className='input small'
-            placeholder='0x0000000000000000000000000000000000000000'
+            placeholder={placeholderAddress}
             onChange={(e) => onToAddressChange(e.target.value)}
           />
         </div>
