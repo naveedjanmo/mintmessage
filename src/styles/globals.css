@@ -233,9 +233,9 @@ main {
 
 .message-export {
   /* cursor: pointer; */
-  padding: 24px;
+  /* padding: 6px; */
   position: relative;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
 }
 
 .message-wrap {
@@ -245,18 +245,18 @@ main {
   background-color: #fff;
   border-radius: 16px;
   z-index: 1;
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
+  /* border: 6px solid #f2f2f2; */
+  overflow: hidden;
 }
 
 .message-header {
   font-family: 'ES Rebond Grotesque';
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
 
   padding: 16px 0;
   background: #c850c0;
-
-  border-radius: 16px 16px 0 0;
 
   display: flex;
   flex-direction: column;
@@ -275,7 +275,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -302,7 +302,7 @@ main {
 
 .message-message {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 18px;
   text-align: left;
   line-height: 150%;
 }
@@ -316,7 +316,7 @@ main {
   align-items: center;
 
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .message-footer p:first-of-type {
@@ -336,13 +336,13 @@ main {
   border-radius: 100px;
 
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
 
   color: #7e7e7e;
 }
 
 .tag img {
-  height: 10px;
+  height: 12px;
 }
 
 .tag span {

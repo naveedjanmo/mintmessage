@@ -2,8 +2,8 @@ import React from 'react';
 import MintButton from './MintButton';
 
 const MessageForm = ({
-  recipientAddress,
-  onRecipientChange,
+  toAddress,
+  onToAddressChange,
   message,
   onMessageChange,
   twitter,
@@ -25,10 +25,10 @@ const MessageForm = ({
         <div className='input-wrap'>
           <label>Recipient Address</label>
           <input
-            id='recipient-address'
+            id='to-address'
             className='input small'
-            placeholder={recipientAddress}
-            onChange={(e) => onRecipientChange(e.target.value)}
+            placeholder='0x000000000000000000000000000000000000dEaD'
+            onChange={(e) => onToAddressChange(e.target.value)}
           />
         </div>
 

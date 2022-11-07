@@ -67,26 +67,32 @@ const client = create({
 });
 
 // TODO
-// - Update createToken in contract to auto transfer to recipientAddress post-mint
-//    - Do I need to create an explicit transfer function? I don't think so
 // - Figure out how to check gas and how much this will cost on mainnet (bear and bull market)
+//    - Wint3r shared something the other day about checking gas score
 // - Figure out how to stop someone from spamming the mint button - infura will charge at a certain point
-//    - Figure out how/if I can clear infura ipfs pins
 // - Fix dot env stuff
 // - Fix title of NFTs on marketplaces - metadata
-// - Check that images are loading across marketplaces
-// - Improve image design - remove background
+// - Validate address form field
+//    - And disable if no address present
+// - Message design
+//    - Check that images are loading across marketplaces
+//    - Improve image design - remove background, make text bigger, make more like lens NFTs
+//    - Check if its possible to fuck with the image to make it look diff on mplaces
+// FINALS
+// - Clear IPFS pins on infura
 // v2
+// - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
 // - Disable forms until wallet connected / add UX to achieve this behavior
+// - Flip message on mint for success message
+//    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88
+//    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
 
 const App = () => {
   const { address } = useAccount();
   const [isLoading, setIsLoading] = useState(false);
-  const [recipientAddress, setRecipientAddress] = useState(
-    '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb'
-  );
+  const [toAddress, setToAddress] = useState();
   const [message, setMessage] = useState(
     `Hello! I'm interested in buying Dickbutt #420. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
   );
@@ -103,9 +109,15 @@ const App = () => {
           backgroundColor: 'rgba(0,0,0,0)',
           scale: 3,
         }),
-        file = canvas.toDataURL('image/jpg'),
+        file = canvas.toDataURL('image/png'),
         link = document.createElement('a');
       link.href = file;
+
+      // /* Download for testing */
+      // link.download = 'downloaded-image';
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       /* Upload image to IPFS and store link in state */
       let added = await client.add(file, {
@@ -118,7 +130,7 @@ const App = () => {
       /* Create NFT metadata and upload to IPFS */
       if (!url) return;
       const data = JSON.stringify({
-        name: 'MintMessage',
+        name: 'mintmessage',
         description: `You received a message from ${formatAddress(
           address
         )} via mintmessage.xyz.`,
@@ -129,7 +141,7 @@ const App = () => {
       console.log(`NFT URL: ${url}`);
 
       /* Pop wallet and run createToken */
-      // TODO: Update createToken in contract to send to recipientAddress post-mint
+      // TODO: Update createToken in contract to send to toAddress post-mint
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -139,7 +151,7 @@ const App = () => {
           signer
         );
 
-        let transaction = await contract.createToken(url);
+        let transaction = await contract.createToken(url, toAddress);
         console.log('Mining...');
         await transaction.wait();
       } else {
@@ -170,8 +182,8 @@ const App = () => {
           <section className='content-wrap'>
             <div className='left'>
               <MessageForm
-                recipientAddress={recipientAddress}
-                onRecipientChange={setRecipientAddress}
+                toAddress={toAddress}
+                onToAddressChange={setToAddress}
                 message={message}
                 onMessageChange={setMessage}
                 twitter={twitter}
@@ -183,7 +195,11 @@ const App = () => {
               <Footer />
             </div>
             <div className='right'>
-              <MessagePreview message={message} twitter={twitter} />
+              <MessagePreview
+                message={message}
+                twitter={twitter}
+                toAddress={toAddress}
+              />
             </div>
           </section>
         </main>

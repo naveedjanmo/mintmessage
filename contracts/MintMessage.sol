@@ -7,8 +7,6 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
-// import { Base64 } from "./libraries/Base64.sol";
-
 contract MintMessage is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -27,11 +25,12 @@ contract MintMessage is ERC721URIStorage {
      * @notice Mint price set to 0 by default.
      */
     uint256 mintPrice = 0 ether;
+    
     address payable owner;
 
     // ====================== Constructor ======================
 
-    constructor() public ERC721("MintMessage", "MNTMSG") {
+    constructor() ERC721("MintMessage", "MSG") {
         owner = payable(msg.sender);
     }
 
@@ -54,11 +53,11 @@ contract MintMessage is ERC721URIStorage {
 
     // ======================== Minting ========================
 
-    function createToken(string memory tokenURI) public payable returns (uint){
+    function createToken(string memory tokenURI, address to) public payable returns (uint){
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         
-        _mint(msg.sender, newItemId);
+        _mint(to, newItemId);
         _setTokenURI(newItemId, tokenURI);
         return newItemId;
     }

@@ -5,9 +5,7 @@ import { formatDate, formatAddress } from '../utils/utils';
 
 import twitterIcon from '../twitter-icon.svg';
 
-const MessagePreview = ({ message, twitter }) => {
-  const placeholderAddress = '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb';
-
+const MessagePreview = ({ message, twitter, toAddress }) => {
   const { address } = useAccount();
 
   return (
@@ -22,9 +20,7 @@ const MessagePreview = ({ message, twitter }) => {
               <div className='from-left'>
                 <p>From</p>
                 <p>
-                  {address
-                    ? formatAddress(address)
-                    : formatAddress(placeholderAddress)}
+                  {address ? formatAddress(address) : formatAddress(toAddress)}
                 </p>
               </div>
               <div className='from-right'>{formatDate(new Date())}</div>

@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "@nomiclabs/hardhat-etherscan": "^3.1.2",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "chai": "^4.3.6",
     "ethereum-waffle": "^3.4.4"
