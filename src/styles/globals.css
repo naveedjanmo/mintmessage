@@ -11,6 +11,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 h1 {
@@ -215,7 +216,7 @@ main {
   flex-direction: row;
   justify-content: space-between;
 
-  margin-top: 24px;
+  margin-top: 32px;
 
   font-size: 14px;
   font-weight: 400;
@@ -261,6 +262,9 @@ main {
 }
 
 .message-wrap {
+  display: flex;
+  flex-direction: column;
+
   position: relative;
   width: 480px;
   height: 380px;
@@ -302,6 +306,11 @@ main {
 
 .message-body {
   padding: 20px 24px 24px 24px;
+  outline: 1px solid rgba(200, 80, 192, 0.25);
+  outline-offset: -2px;
+  border-radius: 0 0 16px 16px;
+  flex-grow: 1;
+  justify-content: space-between;
 }
 
 .message-header p {
@@ -349,7 +358,6 @@ main {
   bottom: 24px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 
   gap: 8px;
@@ -387,8 +395,8 @@ main {
 }
 
 @media (max-width: 1024px) {
-  .content-wrap {
-    /* flex-direction: column; */
+  body {
+    overflow: visible;
   }
 
   .left {

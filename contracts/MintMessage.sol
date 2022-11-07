@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -8,9 +8,13 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "hardhat/console.sol";
 
-contract MintMessage is ERC721URIStorage {
+contract MintMessage is ERC721URIStorage, ERC2981 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
 
     // ======================== Events ========================
 

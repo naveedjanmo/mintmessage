@@ -61,9 +61,9 @@ const client = create({
 
 // TODO
 // - Contract
-//    - Figure out how to check gas and how much this will cost on mainnet (how much in bear and bull market?)
-//        - W1nt3r shared something the other day about checking gas score
+//    - Use OZ builder to improve contract. See here: https://www.youtube.com/watch?v=h6Fb_dPZCd0&ab_channel=Web3Club
 //    - Add royalty - see divergence contracts for royalty standard impl.
+//        - https://etherscan.io/address/0xd2a077ec359d94e0a0b7e84435eacb40a67a817c#code
 //    - Run tests - see OZ docs for guide
 // - UI
 //    - Figure out how to improve image quality - use svg instead?
@@ -72,13 +72,15 @@ const client = create({
 //    - Figure out how to stop someone from spamming the mint button
 //    - Validate address form field (disable if no address present)
 //    - Check if its possible to fuck with the image to make it look diff on export
-// - Launch to production
+// - Push to production
 //    - Clear IPFS pins on infura
+//    - Replace contract address link prefix with mainnet etherscan
 // v2
 // - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
 // - Disable forms until wallet connected / add alt. UX to achieve this behavior
+// - Reduce gas cost (change token URI method?)
 // - Flip message on mint and reveal success message
 //    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88
 //    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
@@ -102,7 +104,7 @@ const App = () => {
           backgroundColor: 'rgba(0,0,0,0)',
           scale: 5,
         }),
-        file = canvas.toDataURL('image/png'),
+        file = canvas.toDataURL('image/webp'),
         link = document.createElement('a');
       link.href = file;
 

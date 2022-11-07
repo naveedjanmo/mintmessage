@@ -27,7 +27,7 @@ const MessageForm = ({
           <input
             id='to-address'
             className='input small'
-            placeholder='0x000000000000000000000000000000000000dEaD'
+            placeholder='0x0000000000000000000000000000000000000000'
             onChange={(e) => onToAddressChange(e.target.value)}
           />
         </div>
