@@ -11,6 +11,7 @@ const MessageForm = ({
   isLoading,
   createNFT,
   placeholderAddress,
+  addressError,
 }) => {
   const validateTwitter = (e) => {
     const newTwitter = e.target.value.replace(/[^A-Za-z0-9_]/g, '');
@@ -25,6 +26,7 @@ const MessageForm = ({
       <form action='' method='get'>
         <div className='input-wrap'>
           <label>Recipient Address</label>
+          <div>{addressError}</div>
           <input
             id='to-address'
             className='input small'

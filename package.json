@@ -1,9 +1,8 @@
 {
-  "name": "my-wave-portal-v2",
+  "name": "mintmessage",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@openzeppelin/contracts": "^4.7.3",
     "@rainbow-me/rainbowkit": "^0.7.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -55,6 +54,7 @@
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.2",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.7.3",
     "chai": "^4.3.6",
     "ethereum-waffle": "^3.4.4"
   }

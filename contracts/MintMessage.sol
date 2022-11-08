@@ -1,51 +1,51 @@
 // SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.4;
 
-pragma solidity ^0.8.17;
-
-import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "hardhat/console.sol";
 
-contract MintMessage is ERC721URIStorage, ERC2981 {
+/**
+ * @title mintmessage.xyz
+ * @author @naveedjanmo
+ */
+contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
-        return super.supportsInterface(interfaceId);
-    }
-
-    // ======================== Events ========================
-
     /**
-     * @notice Emitted when a MintMessage is minted.
+     * @notice Emitted when a message is minted.
      */
     event NewMintMessageMinted(address sender, uint256 tokenId);
-
-
-    // ======================= Constants =======================
 
     /**
      * @notice Mint price set to 0 by default.
      */
     uint256 mintPrice = 0 ether;
+
+    constructor() ERC721("MintMessage", "MSG") {}
     
-    address payable owner;
+    // ======================== Minting ========================
 
-    // ====================== Constructor ======================
-
-    constructor() ERC721("MintMessage", "MSG") {
-        owner = payable(msg.sender);
+    function createToken(string memory tokenURI, address to) public payable returns (uint){
+        require(msg.value == mintPrice);
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        
+        _mint(to, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+        return newItemId;
     }
 
     // ========================= Utils =========================
 
     /**
-     * @notice Gives owner ability to update mint price
+     * @notice Owner can update the mint price
      */
-    function updateMintPrice(uint _mintPrice) public payable {
-        require(owner == msg.sender, "Only owner can update mint price.");
+    function updateMintPrice(uint _mintPrice) public payable onlyOwner {
         mintPrice = _mintPrice;
     }
 
@@ -56,19 +56,22 @@ contract MintMessage is ERC721URIStorage, ERC2981 {
         return mintPrice;
     }
 
-    // ======================== Minting ========================
-
-    function createToken(string memory tokenURI, address to) public payable returns (uint){
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
-        
-        _mint(to, newItemId);
-        _setTokenURI(newItemId, tokenURI);
-        return newItemId;
+    /**
+     * @notice Holders can destroy tokens
+     */
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 
-    // ======================= Royalty =======================
-
-    // TODO
-
+   /**
+     * @notice Query tokenURI with tokenId
+     */
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
+    }
 }

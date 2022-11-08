@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 
 import { ethers } from 'ethers';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import {
+  chain,
+  configureChains,
+  createClient,
+  useAccount,
+  WagmiConfig,
+  useEnsName,
+} from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import {
@@ -60,11 +67,6 @@ const client = create({
 });
 
 // TODO
-// - Contract
-//    - Use OZ builder to improve contract. See here: https://www.youtube.com/watch?v=h6Fb_dPZCd0&ab_channel=Web3Club
-//    - Add royalty - see divergence contracts for royalty standard impl.
-//        - https://etherscan.io/address/0xd2a077ec359d94e0a0b7e84435eacb40a67a817c#code
-//    - Run tests - see OZ docs for guide
 // - UI
 //    - Figure out how to improve image quality - use svg instead?
 //    - Check that images are loading across all marketplaces (OS, LR, X2, RA)
@@ -75,6 +77,7 @@ const client = create({
 // - Push to production
 //    - Clear IPFS pins on infura
 //    - Replace contract address link prefix with mainnet etherscan
+//    - Add royalties on Manifold and OS
 // v2
 // - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
@@ -86,6 +89,8 @@ const client = create({
 //    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
 //    - https://www.youtube.com/watch?v=GOuwOI-WSkE&ab_channel=PedroTech
 // - Load animation? https://codesandbox.io/s/uotor?module=%2Fsrc%2FExample.tsx
+// - Stages to loading (see rainbow project above)
+// - Style rainbow components - connect button text
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +104,7 @@ const App = () => {
 
   async function createNFT() {
     const { ethereum } = window;
+    const { address } = useAccount;
 
     try {
       setIsLoading(true);
@@ -130,7 +136,7 @@ const App = () => {
       if (!file) return;
       const data = JSON.stringify({
         name: 'You received a mintmessage!',
-        description: 'Message sent via mintmessage',
+        description: `Message sent from ${address} via mintmessage.xyz`,
         external_url: 'https://mintmessage.xyz',
         image: file,
       });
@@ -149,6 +155,7 @@ const App = () => {
         );
 
         let transaction = await contract.createToken(url, toAddress);
+
         console.log('Mining...');
         await transaction.wait();
       } else {
@@ -163,6 +170,41 @@ const App = () => {
       setIsLoading(false);
     }
   }
+
+  const [addressError, setAddressError] = useState(null);
+  const [twitterError, setTwitterError] = useState(null);
+  const [messageError, setMessageError] = useState(null);
+  const { data: ens } = useEnsName();
+
+  async function validateAddress(e) {
+    const address = ethers.utils.isAddress(e.target.value);
+    // const provider = new ethers.providers.getDefaultProvider();
+    // const ensName = await provider.lookupAddress(address);
+    // const resolver = ensName ? await provider.getResolver(ensName) : null;
+    // console.log(ensName);
+    return address;
+    // setAddressError(address ? null : 'Invalid address or ENS name');
+  }
+
+  // function onFormSubmit(address) {
+  //   onToAddressChange(address);
+  // }
+
+  // On createNFT:
+  // Check if address is valid
+  //  if valid then continue
+  //  if invalid then setAddressError to error message and display
+  // Check if ens resolved address is valid
+  //  if valid then continue
+  //  if invalid then setAddressError to error message and display
+  // Check if message is empty
+  //  if not empty then continue
+  //  if empty then setMessageError to error message and display
+  // Check if twitter is valid
+  //  if valid then continue
+  //  if invalid then setTwitterError to error message and display
+
+  // (separately?) add character limit to the message input - might have done this already
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -190,6 +232,7 @@ const App = () => {
                 isLoading={isLoading}
                 createNFT={createNFT}
                 placeholderAddress={placeholderAddress}
+                addressError={addressError}
               />
               <Footer />
             </div>
