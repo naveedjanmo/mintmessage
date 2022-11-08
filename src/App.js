@@ -32,6 +32,8 @@ import Footer from './components/Footer';
 import { mintMessageAddress } from './utils/config';
 import MintMessage from './utils/MintMessage.json';
 
+import useForm from './hooks/useForm';
+
 /* WAGMI Config */
 const { chains, provider } = configureChains(
   [chain.goerli],
@@ -95,12 +97,20 @@ const client = create({
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [toAddress, setToAddress] = useState('');
-  const [message, setMessage] = useState(
-    `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`
-  );
-  const [twitter, setTwitter] = useState('naveedjanmo');
+  const [message, setMessage] = useState('');
+  const [twitter, setTwitter] = useState('');
   const [isMinted, setIsMinted] = useState(false);
-  const placeholderAddress = '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb';
+
+  const [toAddressError, setToAddressError] = useState(false);
+  const [messageError, setMessageError] = useState(false);
+
+  const placeholder = {
+    address: '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb',
+    message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`,
+    twitter: 'naveedjanmo',
+  };
+
+  const { values } = useForm();
 
   async function createNFT() {
     const { ethereum } = window;
@@ -118,13 +128,13 @@ const App = () => {
         link = document.createElement('a');
       link.href = file;
 
-      // /* Download for testing */
+      /* TESTING Download for testing */
       // link.download = 'downloaded-image';
       // document.body.appendChild(link);
       // link.click();
       // document.body.removeChild(link);
 
-      /* Upload image to IPFS (old) */
+      /* SAVED Upload image to IPFS (old) */
       // let added = await client.add(file, {
       //   progress: (prog) => console.log(`received: ${prog}`),
       // });
@@ -132,7 +142,7 @@ const App = () => {
       // console.log(`Image URL: ${url}`);
       // setFileUrl(url);
 
-      /* Create NFT metadata, include png base64 and upload to IPFS */
+      /* PAUSED Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
       const data = JSON.stringify({
         name: 'You received a mintmessage!',
@@ -144,7 +154,31 @@ const App = () => {
       const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
       console.log(`NFT URL: ${url}`);
 
-      /* Pop wallet and run createToken */
+      // if (message) {
+      //   console.log('valid message');
+      // } else {
+      //   setMessageError(true);
+      //   console.log('invalid address');
+      // }
+
+      /* NOTES On createNFT /
+      // Check if address is valid
+      //  if valid then continue
+      //  if invalid then setAddressError to error message and display
+      // Check if ens resolved address is valid
+      //  if valid then continue
+      //  if invalid then setAddressError to error message and display
+      // Check if message is empty
+      //  if not empty then continue
+      //  if empty then setMessageError to error message and display
+      // Check if twitter is valid
+      //  if valid then continue
+      //  if invalid then setTwitterError to error message and display
+
+      // (separately?) add character limit to the message input - might have done this already
+
+
+      /* PAUSED Pop wallet and run createToken */
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -154,7 +188,9 @@ const App = () => {
           signer
         );
 
-        let transaction = await contract.createToken(url, toAddress);
+        console.log(values.toAddress);
+
+        let transaction = await contract.createToken(url, values.toAddress);
 
         console.log('Mining...');
         await transaction.wait();
@@ -166,45 +202,9 @@ const App = () => {
     } finally {
       // TODO: Make this work
       // console.log(`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/11`);
-      setIsMinted(true);
       setIsLoading(false);
     }
   }
-
-  const [addressError, setAddressError] = useState(null);
-  const [twitterError, setTwitterError] = useState(null);
-  const [messageError, setMessageError] = useState(null);
-  const { data: ens } = useEnsName();
-
-  async function validateAddress(e) {
-    const address = ethers.utils.isAddress(e.target.value);
-    // const provider = new ethers.providers.getDefaultProvider();
-    // const ensName = await provider.lookupAddress(address);
-    // const resolver = ensName ? await provider.getResolver(ensName) : null;
-    // console.log(ensName);
-    return address;
-    // setAddressError(address ? null : 'Invalid address or ENS name');
-  }
-
-  // function onFormSubmit(address) {
-  //   onToAddressChange(address);
-  // }
-
-  // On createNFT:
-  // Check if address is valid
-  //  if valid then continue
-  //  if invalid then setAddressError to error message and display
-  // Check if ens resolved address is valid
-  //  if valid then continue
-  //  if invalid then setAddressError to error message and display
-  // Check if message is empty
-  //  if not empty then continue
-  //  if empty then setMessageError to error message and display
-  // Check if twitter is valid
-  //  if valid then continue
-  //  if invalid then setTwitterError to error message and display
-
-  // (separately?) add character limit to the message input - might have done this already
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -223,7 +223,7 @@ const App = () => {
             <div className='left'>
               <MessageForm
                 toAddress={toAddress}
-                onToAddressChange={setToAddress}
+                setToAddress={setToAddress}
                 message={message}
                 onMessageChange={setMessage}
                 twitter={twitter}
@@ -231,8 +231,13 @@ const App = () => {
                 onTwitterChange={setTwitter}
                 isLoading={isLoading}
                 createNFT={createNFT}
-                placeholderAddress={placeholderAddress}
-                addressError={addressError}
+                placeholderAddress={placeholder.address}
+                placeholderTwitter={placeholder.twitter}
+                placeholderMessage={placeholder.message}
+                toAddressError={toAddressError}
+                setToAddressError={setToAddressError}
+                messageError={messageError}
+                setMessageError={setMessageError}
               />
               <Footer />
             </div>
@@ -242,7 +247,9 @@ const App = () => {
                 twitter={twitter}
                 toAddress={toAddress}
                 isCardFlipped={isMinted}
-                placeholderAddress={placeholderAddress}
+                placeholderAddress={placeholder.address}
+                placeholderTwitter={placeholder.twitter}
+                placeholderMessage={placeholder.message}
               />
             </div>
           </section>

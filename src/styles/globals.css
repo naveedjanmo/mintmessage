@@ -168,6 +168,20 @@ main {
   outline-offset: -2px;
 }
 
+.input-error {
+  outline: 2px solid #ff4342;
+  outline-offset: -2px;
+}
+
+.input-error:focus {
+  outline: 2px solid #ff4342;
+  outline-offset: -2px;
+}
+
+.input-wrap-error label {
+  color: #ff4342;
+}
+
 ::-webkit-input-placeholder {
   color: #7b7b7b;
 }
@@ -181,7 +195,11 @@ main {
 }
 
 .disabled {
-  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.disabled:hover {
+  scale: 1 !important;
 }
 
 /* Mint detail info - price, gas etc. */
@@ -236,6 +254,7 @@ main {
   background: #c850c0;
   font-size: 16px;
   font-weight: 600;
+  width: 100%;
 
   color: #fff;
   transition: all 0.25s ease;
@@ -415,4 +434,66 @@ main {
   .footer {
     margin-top: 24px;
   }
+}
+
+.animated {
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+@keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.shake {
+  -webkit-animation-name: shake;
+  animation-name: shake;
 }
