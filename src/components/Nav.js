@@ -6,7 +6,9 @@ const Nav = function () {
   return (
     <div className='nav-wrap'>
       <Logo />
-      <ConnectButton />
+      <div className='connect-nav-wrap'>
+        <ConnectButton />
+      </div>
     </div>
   );
 };

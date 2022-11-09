@@ -438,4 +438,11 @@ main {
   .message-export {
     scale: 0.7;
   }
+  .connect-nav-wrap {
+    font-size: 14px;
+  }
+
+  .logo-wrap h1 {
+    font-size: 22px;
+  }
 }
