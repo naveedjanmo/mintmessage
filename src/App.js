@@ -33,7 +33,7 @@ import MintMessage from './utils/MintMessage.json';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.goerli],
+  [chain.goerli, chain.mainnet],
   [
     alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_ID }),
     publicProvider(),
@@ -103,6 +103,38 @@ const App = () => {
     twitter: 'naveedjanmo',
   };
 
+  // async function estimateGasPrice() {
+  //   const { ethereum } = window;
+
+  //   if (ethereum) {
+  //     const provider = new ethers.providers.Web3Provider(ethereum);
+  //     const signer = provider.getSigner();
+  //     const contract = new ethers.Contract(
+  //       mintMessageAddress,
+  //       MintMessage.abi,
+  //       signer
+  //     );
+
+  //     const gasAmount = await contract.estimateGas.createToken(
+  //       'https://ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
+  //       '0x970062d3ebEe26F651C401f69d2fe510b43a1b03'
+  //     );
+
+  //     const formattedGasAmount = gasAmount.toNumber();
+  //     console.log(`gas amount: ${formattedGasAmount}`);
+
+  //     const gasPrice = (await provider.getFeeData()).maxFeePerGas.mul(21000);
+
+  //     console.log(`gas price: ${gasPrice.toNumber()}`);
+
+  //     // const totalGas = formattedGasAmount * formattedGasPrice;
+  //     // console.log(`total gas price: ${ethers.utils.formatEther(totalGas)}`);
+
+  //     // console.log(ethers.utils.formatUnits(totalGas, 'ether'));
+  //   }
+  // }
+  // estimateGasPrice();
+
   async function createNFT() {
     const { ethereum } = window;
     const { address } = useAccount;
@@ -159,9 +191,7 @@ const App = () => {
 
         console.log('Mining...');
         await transaction.wait();
-        console.log(
-          `https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${contract.newItemId}`
-        );
+        console.log();
       } else {
         console.log("Ethereum object doesn't exist!");
       }

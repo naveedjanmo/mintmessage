@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MintButton from './MintButton';
-import { wait } from '../utils/utils';
 
 const MessageForm = ({
   isLoading,
