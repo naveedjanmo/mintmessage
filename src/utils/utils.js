@@ -6,3 +6,6 @@ export function formatDate(timestamp) {
 
 export const formatAddress = (address) =>
   address.slice(0, 4) + '...' + address.slice(-4);
+
+export const wait = (amount = 0) =>
+  new Promise((resolve) => setTimeout(resolve, amount));

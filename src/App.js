@@ -33,6 +33,7 @@ import { mintMessageAddress } from './utils/config';
 import MintMessage from './utils/MintMessage.json';
 
 import useForm from './hooks/useForm';
+import validateForm from './utils/validateForm';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
@@ -95,22 +96,17 @@ const client = create({
 // - Style rainbow components - connect button text
 
 const App = () => {
+  const { handleChange, handleSubmit, values, setValues, errors } = useForm(
+    createNFT,
+    validateForm
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const [toAddress, setToAddress] = useState('');
-  const [message, setMessage] = useState('');
-  const [twitter, setTwitter] = useState('');
-  const [isMinted, setIsMinted] = useState(false);
 
-  const [toAddressError, setToAddressError] = useState(false);
-  const [messageError, setMessageError] = useState(false);
-
-  const placeholder = {
-    address: '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb',
+  const placeholders = {
+    fromAddress: '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb',
     message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`,
     twitter: 'naveedjanmo',
   };
-
-  const { values } = useForm();
 
   async function createNFT() {
     const { ethereum } = window;
@@ -154,13 +150,6 @@ const App = () => {
       const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
       console.log(`NFT URL: ${url}`);
 
-      // if (message) {
-      //   console.log('valid message');
-      // } else {
-      //   setMessageError(true);
-      //   console.log('invalid address');
-      // }
-
       /* NOTES On createNFT /
       // Check if address is valid
       //  if valid then continue
@@ -177,7 +166,6 @@ const App = () => {
 
       // (separately?) add character limit to the message input - might have done this already
 
-
       /* PAUSED Pop wallet and run createToken */
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
@@ -188,23 +176,30 @@ const App = () => {
           signer
         );
 
-        console.log(values.toAddress);
-
         let transaction = await contract.createToken(url, values.toAddress);
 
         console.log('Mining...');
         await transaction.wait();
+        console.log(
+          `https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${contract.newItemId}`
+        );
       } else {
         console.log("Ethereum object doesn't exist!");
       }
     } catch (error) {
       console.log(error);
     } finally {
-      // TODO: Make this work
-      // console.log(`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/11`);
       setIsLoading(false);
     }
   }
+
+  // const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // function submitForm() {
+  //   setIsSubmitted(true);
+  // }
+
+  // createNFT();
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -222,35 +217,20 @@ const App = () => {
           <section className='content-wrap'>
             <div className='left'>
               <MessageForm
-                toAddress={toAddress}
-                setToAddress={setToAddress}
-                message={message}
-                onMessageChange={setMessage}
-                twitter={twitter}
-                setTwitter={setTwitter}
-                onTwitterChange={setTwitter}
                 isLoading={isLoading}
                 createNFT={createNFT}
-                placeholderAddress={placeholder.address}
-                placeholderTwitter={placeholder.twitter}
-                placeholderMessage={placeholder.message}
-                toAddressError={toAddressError}
-                setToAddressError={setToAddressError}
-                messageError={messageError}
-                setMessageError={setMessageError}
+                //
+                values={values}
+                setValues={setValues}
+                placeholders={placeholders}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                errors={errors}
               />
               <Footer />
             </div>
             <div className='right'>
-              <MessagePreview
-                message={message}
-                twitter={twitter}
-                toAddress={toAddress}
-                isCardFlipped={isMinted}
-                placeholderAddress={placeholder.address}
-                placeholderTwitter={placeholder.twitter}
-                placeholderMessage={placeholder.message}
-              />
+              <MessagePreview values={values} placeholders={placeholders} />
             </div>
           </section>
         </main>

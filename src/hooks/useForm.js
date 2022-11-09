@@ -21,16 +21,15 @@ const useForm = (callback, validateForm) => {
     e.preventDefault();
     setErrors(validateForm(values));
     setIsSubmitting(true);
-    // createNFT();
   };
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       callback();
     }
-  });
+  }, [errors]);
 
-  return { handleChange, values, handleSubmit, errors };
+  return { handleChange, handleSubmit, values, setValues, errors };
 };
 
 export default useForm;
