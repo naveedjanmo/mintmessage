@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { ethers } from 'ethers';
 import {
   chain,
@@ -7,7 +6,6 @@ import {
   createClient,
   useAccount,
   WagmiConfig,
-  useEnsName,
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -24,16 +22,14 @@ import './styles/base.css';
 import './styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
+import useForm from './hooks/useForm';
 import Nav from './components/Nav';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
-
+import validateForm from './utils/validateForm';
 import { mintMessageAddress } from './utils/config';
 import MintMessage from './utils/MintMessage.json';
-
-import useForm from './hooks/useForm';
-import validateForm from './utils/validateForm';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
@@ -138,7 +134,7 @@ const App = () => {
       // console.log(`Image URL: ${url}`);
       // setFileUrl(url);
 
-      /* PAUSED Create NFT metadata, include png base64 and upload to IPFS */
+      /* Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
       const data = JSON.stringify({
         name: 'You received a mintmessage!',
@@ -150,23 +146,7 @@ const App = () => {
       const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
       console.log(`NFT URL: ${url}`);
 
-      /* NOTES On createNFT /
-      // Check if address is valid
-      //  if valid then continue
-      //  if invalid then setAddressError to error message and display
-      // Check if ens resolved address is valid
-      //  if valid then continue
-      //  if invalid then setAddressError to error message and display
-      // Check if message is empty
-      //  if not empty then continue
-      //  if empty then setMessageError to error message and display
-      // Check if twitter is valid
-      //  if valid then continue
-      //  if invalid then setTwitterError to error message and display
-
-      // (separately?) add character limit to the message input - might have done this already
-
-      /* PAUSED Pop wallet and run createToken */
+      /* Pop wallet and run createToken */
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -193,14 +173,6 @@ const App = () => {
     }
   }
 
-  // const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // function submitForm() {
-  //   setIsSubmitted(true);
-  // }
-
-  // createNFT();
-
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
@@ -217,15 +189,13 @@ const App = () => {
           <section className='content-wrap'>
             <div className='left'>
               <MessageForm
-                isLoading={isLoading}
-                createNFT={createNFT}
-                //
-                values={values}
-                setValues={setValues}
                 placeholders={placeholders}
-                handleSubmit={handleSubmit}
-                handleChange={handleChange}
+                values={values}
                 errors={errors}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                // createNFT={createNFT}
+                isLoading={isLoading}
               />
               <Footer />
             </div>

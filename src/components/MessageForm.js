@@ -1,16 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MintButton from './MintButton';
-import { ethers } from 'ethers';
 import { wait } from '../utils/utils';
 
 const MessageForm = ({
-  setTwitter,
   isLoading,
-  setToAddressError,
-  setToAddress,
-  //
   values,
-  setValues,
   placeholders,
   handleChange,
   handleSubmit,

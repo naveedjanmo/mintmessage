@@ -61,22 +61,18 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .logo-wrap {
   font-family: 'ES Rebond Grotesque';
   font-size: 24px;
   font-weight: 600;
+  text-decoration: none;
 }
 
 .logo-wrap h1 {
   font-size: 24px;
-}
-
-.nav-wrap {
-  display: flex;
-  align-items: center;
-  gap: 16px;
 }
 
 .content-wrap {
@@ -115,8 +111,6 @@ main {
   bottom: 0;
   margin: 0;
   right: 0;
-
-  /* width: 50vw; */
   background-color: #f2f2f2;
 }
 
@@ -274,10 +268,7 @@ main {
 }
 
 .message-export {
-  /* cursor: pointer; */
-  /* padding: 6px; */
   position: relative;
-  /* background-color: #f2f2f2; */
 }
 
 .message-wrap {
@@ -289,25 +280,12 @@ main {
   height: 380px;
   background-color: #fff;
   border-radius: 1rem;
-  /* z-index: 1; */
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 
   outline: 1px solid #dedede;
   outline-offset: -1px;
 }
-
-/* .message-export {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-
-  border: 20px solid #f00;
-}
-
-.message-export + .message-wrap {
-  border: 10px solid red;
-} */
 
 .message-header {
   font-family: 'ES Rebond Grotesque';
@@ -423,12 +401,14 @@ main {
     width: 100vw;
     overflow: hidden;
     padding-top: 40px;
+    height: auto;
   }
 
   .right {
     position: relative;
     width: 100vw;
     padding: 40px 64px;
+    height: auto;
   }
 
   .footer {
@@ -436,64 +416,26 @@ main {
   }
 }
 
-.animated {
-  -webkit-animation-duration: 0.75s;
-  animation-duration: 0.75s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-@-webkit-keyframes shake {
-  from,
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+@media (max-width: 750px) {
+  .left {
+    padding: 40px 24px;
   }
 
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
+  .right {
+    padding: 40px 24px;
   }
 
-  20%,
-  40%,
-  60%,
-  80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
+  .nav-wrap {
+    padding: 48px 24px;
+  }
+
+  .message-export {
+    scale: 0.95;
   }
 }
 
-@keyframes shake {
-  from,
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+@media (max-width: 474px) {
+  .message-export {
+    scale: 0.7;
   }
-
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
-  }
-
-  20%,
-  40%,
-  60%,
-  80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
-  }
-}
-
-.shake {
-  -webkit-animation-name: shake;
-  animation-name: shake;
 }

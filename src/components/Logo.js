@@ -2,9 +2,9 @@ import React from 'react';
 
 const Logo = function () {
   return (
-    <div className='logo-wrap'>
+    <a className='logo-wrap' href='/'>
       <h1>🍃 mintmessage</h1>
-    </div>
+    </a>
   );
 };
 
