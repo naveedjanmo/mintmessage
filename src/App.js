@@ -33,7 +33,7 @@ import MintMessage from './utils/MintMessage.json';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.goerli, chain.mainnet],
+  [chain.goerli],
   [
     alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_ID }),
     publicProvider(),
