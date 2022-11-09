@@ -67,21 +67,20 @@ const client = create({
 
 // TODO
 // - UI
-//    - Figure out how to improve image quality - use svg instead?
+//    - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
+//    - Fix webp border issue
+//    - Improve image quality if webp not possible
 //    - Check that images are loading across all marketplaces (OS, LR, X2, RA)
 // - UX
 //    - Figure out how to stop someone from spamming the mint button
-//    - Validate address form field (disable if no address present)
-//    - Check if its possible to fuck with the image to make it look diff on export
-// - Push to production
+//    - Check if its possible to mess with the image to make it look diff on export
+// - Push to mainnet
 //    - Clear IPFS pins on infura
-//    - Replace contract address link prefix with mainnet etherscan
+//    - Replace footer address link prefix with mainnet etherscan
 //    - Add royalties on Manifold and OS
 // v2
-// - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
-// - Disable forms until wallet connected / add alt. UX to achieve this behavior
 // - Reduce gas cost (change token URI method?)
 // - Flip message on mint and reveal success message
 //    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88

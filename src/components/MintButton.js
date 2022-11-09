@@ -9,20 +9,20 @@ function MintButton({ isLoading }) {
 
   if (isConnected) {
     return (
+      // <div className='mint-button-wrap'>
+      //   <div className='mint-info'>
+      //     <div className='mint-info-left'>
+      //       <p>Price: FREE!</p>
+      //     </div>
+      //     <div className='mint-info-right'>
+      //       <p>Gas: </p>
+      //     </div>
+      //   </div>
       <button className='mint-button connected'>
         {isLoading ? <LoadingIndicator /> : 'Mint'}
       </button>
+      // </div>
     );
-    // } else if (isConnected && !isFormValid) {
-    //   return (
-    //     <button
-    //       disabled={true}
-    //       className='mint-button connected disabled'
-    //       onClick={createNFT}
-    //     >
-    //       {isLoading ? <LoadingIndicator /> : 'Mint'}
-    //     </button>
-    //   );
   } else {
     return (
       <button type='button' className='mint-button' onClick={openConnectModal}>

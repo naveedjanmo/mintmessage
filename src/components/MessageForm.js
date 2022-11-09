@@ -25,7 +25,7 @@ const MessageForm = ({
 
   return (
     <div className='form-wrap'>
-      <p>
+      <p className='welcome-message'>
         Send any Ethereum address a message as an NFT for just the cost of gas!
       </p>
       <form action='' method='get' onSubmit={handleSubmit}>

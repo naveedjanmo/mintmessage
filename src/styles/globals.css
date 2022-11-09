@@ -120,7 +120,7 @@ main {
   justify-content: center;
 }
 
-.form-wrap p {
+.welcome-message {
   margin-left: 16px;
   margin-bottom: 32px;
 }
@@ -198,13 +198,13 @@ main {
 
 /* Mint detail info - price, gas etc. */
 
-/* .mint-button-wrap {
+.mint-button-wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;
-} */
+}
 
-/* .mint-info {
+.mint-info {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -213,15 +213,15 @@ main {
 
   font-size: 14px;
   font-weight: 500;
-} */
+}
 
-/* .mint-info-right {
+.mint-info-right {
   padding-right: 24px;
 }
 
 .mint-info-left {
   padding-left: 24px;
-} */
+}
 
 .footer {
   display: flex;
