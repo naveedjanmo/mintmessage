@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import {
-  chain,
-  configureChains,
-  createClient,
-  useAccount,
-  WagmiConfig,
-} from 'wagmi';
+import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import {
@@ -41,7 +35,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'mintmessage',
   chains,
 });
 
@@ -67,18 +61,13 @@ const client = create({
 
 // TODO
 // - UI
-//    - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
-//    - Fix webp border issue
-//    - Improve image quality if webp not possible
-//    - Check that images are loading across all marketplaces (OS, LR, X2, RA)
-// - UX
-//    - Figure out how to stop someone from spamming the mint button
-//    - Check if its possible to mess with the image to make it look diff on export
+//    - Remove this 'https://twitter.com/' if twitter prepended by it
 // - Push to mainnet
 //    - Clear IPFS pins on infura
 //    - Replace footer address link prefix with mainnet etherscan
 //    - Add royalties on Manifold and OS
 // v2
+// - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
 // - Reduce gas cost (change token URI method?)
@@ -91,85 +80,45 @@ const client = create({
 // - Style rainbow components - connect button text
 
 const App = () => {
-  const { handleChange, handleSubmit, values, setValues, errors } = useForm(
+  const { handleChange, handleSubmit, values, errors } = useForm(
     createNFT,
     validateForm
   );
   const [isLoading, setIsLoading] = useState(false);
 
   const placeholders = {
-    fromAddress: '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb',
+    fromAddress: '0x0000000000000000000000000000000000000000',
     message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`,
-    twitter: 'naveedjanmo',
+    twitter: 'punk6529',
   };
-
-  // async function estimateGasPrice() {
-  //   const { ethereum } = window;
-
-  //   if (ethereum) {
-  //     const provider = new ethers.providers.Web3Provider(ethereum);
-  //     const signer = provider.getSigner();
-  //     const contract = new ethers.Contract(
-  //       mintMessageAddress,
-  //       MintMessage.abi,
-  //       signer
-  //     );
-
-  //     const gasAmount = await contract.estimateGas.createToken(
-  //       'https://ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
-  //       '0x970062d3ebEe26F651C401f69d2fe510b43a1b03'
-  //     );
-
-  //     const formattedGasAmount = gasAmount.toNumber();
-  //     console.log(`gas amount: ${formattedGasAmount}`);
-
-  //     const gasPrice = (await provider.getFeeData()).maxFeePerGas.mul(21000);
-
-  //     console.log(`gas price: ${gasPrice.toNumber()}`);
-
-  //     // const totalGas = formattedGasAmount * formattedGasPrice;
-  //     // console.log(`total gas price: ${ethers.utils.formatEther(totalGas)}`);
-
-  //     // console.log(ethers.utils.formatUnits(totalGas, 'ether'));
-  //   }
-  // }
-  // estimateGasPrice();
 
   async function createNFT() {
     const { ethereum } = window;
-    const { address } = useAccount;
 
     try {
       setIsLoading(true);
-      /* Pick and export div as image */
-      const element = document.getElementById('message-export'),
-        canvas = await html2canvas(element, {
-          backgroundColor: 'rgba(0,0,0,0)',
+      /* 1. Pick and export div as image */
+      const element = document.getElementById('message-export');
+      element.imageSmoothingEnabled = true;
+      const canvas = await html2canvas(element, {
+          backgroundColor: null,
           scale: 5,
         }),
-        file = canvas.toDataURL('image/webp'),
+        file = canvas.toDataURL('image/png'),
         link = document.createElement('a');
       link.href = file;
 
       /* TESTING Download for testing */
-      // link.download = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-      /* SAVED Upload image to IPFS (old) */
-      // let added = await client.add(file, {
-      //   progress: (prog) => console.log(`received: ${prog}`),
-      // });
-      // let url = `https://infura-ipfs.io/ipfs/${added.path}`; // Image URL
-      // console.log(`Image URL: ${url}`);
-      // setFileUrl(url);
-
-      /* Create NFT metadata, include png base64 and upload to IPFS */
+      /* 2. Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
       const data = JSON.stringify({
         name: 'You received a mintmessage!',
-        description: `Message sent from ${address} via mintmessage.xyz`,
+        description: `Message sent via mintmessage.xyz`,
         external_url: 'https://mintmessage.xyz',
         image: file,
       });
@@ -177,7 +126,7 @@ const App = () => {
       const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
       console.log(`NFT URL: ${url}`);
 
-      /* Pop wallet and run createToken */
+      /* 3. Pop wallet and run createToken */
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();

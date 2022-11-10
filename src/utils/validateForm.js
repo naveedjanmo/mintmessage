@@ -7,6 +7,7 @@ const validateForm = (values) => {
   } else if (!ethers.utils.isAddress(values.toAddress)) {
     errors.toAddress = 'Invalid address';
   }
+
   if (!values.message) {
     errors.message = 'Message required';
   }

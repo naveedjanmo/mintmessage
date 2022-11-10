@@ -2,7 +2,6 @@ import React from 'react';
 import { useAccount } from 'wagmi';
 import { formatDate, formatAddress } from '../utils/utils';
 import twitterIcon from '../twitter-icon.svg';
-// import { motion } from 'framer-motion';
 
 const MessagePreview = ({ values, placeholders }) => {
   const { address } = useAccount();
