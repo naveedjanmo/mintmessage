@@ -60,13 +60,18 @@ const client = create({
 });
 
 // TODO
-// - UI
-//    - Remove this 'https://twitter.com/' if twitter prepended by it
+/* v1 */
+// - Success message
+// - Fix bugs on responsive
+// - Test submit on mobile
 // - Push to mainnet
+//    - Deploy to mainnet
 //    - Clear IPFS pins on infura
 //    - Replace footer address link prefix with mainnet etherscan
 //    - Add royalties on Manifold and OS
-// v2
+//    - Submit first message to self
+/* v2 */
+// - Remove this 'https://twitter.com/' if twitter prepended by it
 // - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
@@ -84,7 +89,9 @@ const App = () => {
     createNFT,
     validateForm
   );
+  const [tokenId, setTokenId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMinted, setIsMinted] = useState(false);
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
@@ -97,6 +104,7 @@ const App = () => {
 
     try {
       setIsLoading(true);
+      setIsMinted(false);
       /* 1. Pick and export div as image */
       const element = document.getElementById('message-export');
       element.imageSmoothingEnabled = true;
@@ -109,10 +117,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING Download for testing */
-      link.download = 'downloaded-image';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // link.download = 'downloaded-image';
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       /* 2. Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -140,7 +148,15 @@ const App = () => {
 
         console.log('Mining...');
         await transaction.wait();
-        console.log();
+
+        await contract.on('NewMintMessageMinted', (sender, tokenId) => {
+          console.log(
+            `https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${tokenId}`
+          );
+        });
+
+        console.log('Minted!');
+        setIsMinted(true);
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -172,13 +188,17 @@ const App = () => {
                 errors={errors}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
-                // createNFT={createNFT}
                 isLoading={isLoading}
               />
               <Footer />
             </div>
             <div className='right'>
-              <MessagePreview values={values} placeholders={placeholders} />
+              <MessagePreview
+                values={values}
+                placeholders={placeholders}
+                isMinted={isMinted}
+                setIsMinted={setIsMinted}
+              />
             </div>
           </section>
         </main>

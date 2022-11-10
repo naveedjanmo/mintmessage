@@ -1,45 +1,103 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import { formatDate, formatAddress } from '../utils/utils';
-import twitterIcon from '../twitter-icon.svg';
+import twitterIcon from '../assets/twitter-icon.svg';
+import closeIcon from '../assets/close-icon.svg';
+import linkOutIcon from '../assets/link-out-icon.svg';
 
-const MessagePreview = ({ values, placeholders }) => {
+import FlipCard, { BackCard, FrontCard } from './FlipCard';
+
+const MessagePreview = ({ values, placeholders, isMinted, setIsMinted }) => {
   const { address } = useAccount();
-
   const newTwitter = values.twitter.replace(/[^A-Za-z0-9_]/g, '');
 
   return (
-    <>
-      <div className='message-export' id='message-export'>
-        <div className='message-wrap'>
-          <div className='message-header'>
-            <p>mintmessage.xyz</p>
+    <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
+      <FlipCard>
+        <FrontCard isCardFlipped={isMinted}>
+          <div className='message-export' id='message-export'>
+            <div className='message-wrap'>
+              <div className='message-header'>
+                <p>mintmessage.xyz</p>
+              </div>
+              <div className='message-body'>
+                <div className='message-from'>
+                  <div className='from-left'>
+                    <p>From</p>
+                    <p>
+                      {formatAddress(
+                        address ? address : placeholders.fromAddress
+                      )}
+                    </p>
+                  </div>
+                  <div className='from-right'>{formatDate(new Date())}</div>
+                </div>
+                <div className='message-separator'></div>
+                <div className='message-message'>
+                  <p>
+                    {values.message ? values.message : placeholders.message}
+                  </p>
+                </div>
+                <div className='message-footer'>
+                  <p>Reply on Twitter</p>
+                  <div className='tag'>
+                    <img src={twitterIcon} alt='Twitter icon' />
+                    <span>
+                      @{newTwitter ? newTwitter : placeholders.twitter}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className='message-body'>
-            <div className='message-from'>
-              <div className='from-left'>
-                <p>From</p>
+        </FrontCard>
+        <BackCard isCardFlipped={isMinted}>
+          <div className='message-export'>
+            <div className='confirm-wrap'>
+              <div className='confirm-close-wrap'>
+                <button
+                  className='confirm-close'
+                  onClick={() => setIsMinted(!isMinted)}
+                >
+                  <img src={closeIcon} alt='close icon' />
+                </button>
+              </div>
+              <div className='confirm-message'>
+                <h1>Message sent! 🎉</h1>
                 <p>
-                  {formatAddress(address ? address : placeholders.fromAddress)}
+                  Your message will show up in the recipient's wallet in the
+                  next few minutes.
                 </p>
               </div>
-              <div className='from-right'>{formatDate(new Date())}</div>
-            </div>
-            <div className='message-separator'></div>
-            <div className='message-message'>
-              <p>{values.message ? values.message : placeholders.message}</p>
-            </div>
-            <div className='message-footer'>
-              <p>Reply on Twitter</p>
-              <div className='tag'>
-                <img src={twitterIcon} alt='Twitter icon' />
-                <span>@{newTwitter ? newTwitter : placeholders.twitter}</span>
+
+              {/* <div className='confirm-footer'> */}
+              {/* <div className='message-separator'></div> */}
+              <div className='confirm-links'>
+                <a
+                  className='confirm-link'
+                  href='www.opensea.io'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  OpenSea
+                  <img src={linkOutIcon} alt='link icon' />
+                </a>
+                <a
+                  className='confirm-link'
+                  href='www.opensea.io'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  Etherscan
+                  <img src={linkOutIcon} alt='link icon' />
+                </a>
               </div>
+              {/* </div> */}
             </div>
           </div>
-        </div>
-      </div>
-    </>
+        </BackCard>
+      </FlipCard>
+    </div>
   );
 };
 

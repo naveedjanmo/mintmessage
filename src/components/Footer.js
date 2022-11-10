@@ -20,7 +20,7 @@ const Footer = () => {
           rel='noreferrer'
           href={`https://goerli.etherscan.io/address/${mintMessageAddress}`}
         >
-          contract address
+          view contract
         </a>
       </p>
     </div>
