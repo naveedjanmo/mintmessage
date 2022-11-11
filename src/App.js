@@ -85,6 +85,7 @@ const client = create({
 // - Style rainbow components - connect button text
 
 const App = () => {
+  window.Buffer = window.Buffer || require('buffer').Buffer;
   const { handleChange, handleSubmit, values, errors } = useForm(
     createNFT,
     validateForm
