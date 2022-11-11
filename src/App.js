@@ -61,28 +61,28 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Fix bugs on responsive
-// - Test submit on mobile
+// - Remove horizontal scroll on mobile
+// - Test mint on mobile - don't think its working (think this is a scale thing)
+// - Add mint detail - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Push to mainnet
-//    - Deploy to mainnet
+//    - Deploy contract
 //    - Clear IPFS pins on infura
-//    - Replace footer address link prefix with mainnet etherscan
-//    - Add royalties on Manifold and OS
+//    - Replace link prefixes with mainnet versions (confirm message, footer link)
+//    - Add royalties on Manifold and OS (10%)
 //    - Submit first message to self
-//    - Remove any test code - click to flip
+//    - Remove any test code
+//    - Write tweet and publish
 /* v2 */
-// - Remove this 'https://twitter.com/' if twitter prepended by it
-// - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Add a character count indicator to message input
 // - Add ens support
-// - Reduce gas cost (change token URI method?)
-// - Flip message on mint and reveal success message
-//    - https://www.youtube.com/watch?v=YnxyVpE6PIE&ab_channel=Rainbow%F0%9F%8C%88
-//    - https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-mint-nft
-//    - https://www.youtube.com/watch?v=GOuwOI-WSkE&ab_channel=PedroTech
+// - Better input sanitization
+//    - Remove 'https://twitter.com/' if include
+//    - Tidy discord input
+// - Better error indicator behavior - remove red when focused
 // - Load animation? https://codesandbox.io/s/uotor?module=%2Fsrc%2FExample.tsx
+// - mouseover tilt message animation
 // - Stages to loading (see rainbow project above)
-// - Style rainbow components - connect button text
+// - Style rainbow components - font
 
 const App = () => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
