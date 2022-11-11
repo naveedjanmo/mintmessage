@@ -284,6 +284,7 @@ main {
 
 .message-export {
   position: relative;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
 }
 
 .message-wrap {
@@ -295,10 +296,9 @@ main {
   height: 380px;
   background-color: #fff;
   border-radius: 1rem;
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 
-  outline: 1px solid #dee2ee;
+  /* outline: 1px solid #dee2ee; */
   outline-offset: -1px;
 }
 
@@ -324,7 +324,7 @@ main {
 
 .message-body {
   padding: 20px 24px 24px 24px;
-  /* outline: 1px solid rgba(200, 80, 192, 0.2); */
+  /* outline: 1px solid #dee2ee; */
   outline-offset: -1px;
   border-radius: 0 0 16px 16px;
   flex-grow: 1;
@@ -424,7 +424,7 @@ main {
   height: 380px;
   background-color: #fff;
   border-radius: 1rem;
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05); */
   overflow: hidden;
 
   outline: 1px solid #dee2ee;
