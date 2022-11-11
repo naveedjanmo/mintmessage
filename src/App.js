@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -61,7 +61,6 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Success message
 // - Fix bugs on responsive
 // - Test submit on mobile
 // - Push to mainnet
@@ -70,6 +69,7 @@ const client = create({
 //    - Replace footer address link prefix with mainnet etherscan
 //    - Add royalties on Manifold and OS
 //    - Submit first message to self
+//    - Remove any test code - click to flip
 /* v2 */
 // - Remove this 'https://twitter.com/' if twitter prepended by it
 // - Add more detail to mint button/area - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
@@ -90,6 +90,7 @@ const App = () => {
     validateForm
   );
   const [tokenId, setTokenId] = useState('');
+  const [transactionHash, setTransactionHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
 
@@ -145,15 +146,15 @@ const App = () => {
         );
 
         let transaction = await contract.createToken(url, values.toAddress);
-
         console.log('Mining...');
         await transaction.wait();
+        setTransactionHash(transaction.hash);
 
-        await contract.on('NewMintMessageMinted', (sender, tokenId) => {
-          console.log(
-            `https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${tokenId}`
-          );
-        });
+        // const onNewMessage = (sender, tokenId) => {
+        //   console.log('NewMessage', sender, tokenId);
+        // };
+
+        // contract.on('NewMessageMinted', onNewMessage);
 
         console.log('Minted!');
         setIsMinted(true);
@@ -166,6 +167,34 @@ const App = () => {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    const { ethereum } = window;
+    let contract;
+
+    const onNewMessage = (sender, tokenId) => {
+      // console.log('NewMessage', sender, tokenId.toString());
+
+      setTokenId(tokenId.toString());
+    };
+
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        mintMessageAddress,
+        MintMessage.abi,
+        signer
+      );
+      contract.on('NewMessageMinted', onNewMessage);
+    }
+
+    return () => {
+      if (contract) {
+        contract.off('NewMintMessageMinted', onNewMessage);
+      }
+    };
+  }, []);
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -198,6 +227,8 @@ const App = () => {
                 placeholders={placeholders}
                 isMinted={isMinted}
                 setIsMinted={setIsMinted}
+                transactionHash={transactionHash}
+                tokenId={tokenId}
               />
             </div>
           </section>

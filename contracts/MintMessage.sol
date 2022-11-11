@@ -19,7 +19,7 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     /**
      * @notice Emitted when a message is minted.
      */
-    event NewMintMessageMinted(address sender, uint256 tokenId);
+    event NewMessageMinted(address sender, uint256 tokenId);
 
     /**
      * @notice Mint price set to 0 by default.
@@ -37,7 +37,8 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
         
         _mint(to, newItemId);
         _setTokenURI(newItemId, tokenURI);
-        return newItemId;
+
+        emit NewMessageMinted(msg.sender, newItemId);
     }
 
     // ========================= Utils =========================

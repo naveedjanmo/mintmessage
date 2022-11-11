@@ -7,12 +7,20 @@ import linkOutIcon from '../assets/link-out-icon.svg';
 
 import FlipCard, { BackCard, FrontCard } from './FlipCard';
 
-const MessagePreview = ({ values, placeholders, isMinted, setIsMinted }) => {
+const MessagePreview = ({
+  values,
+  placeholders,
+  isMinted,
+  setIsMinted,
+  transactionHash,
+  tokenId,
+}) => {
   const { address } = useAccount();
   const newTwitter = values.twitter.replace(/[^A-Za-z0-9_]/g, '');
 
   return (
-    <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
+    // <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
+    <div style={{ flex: '0 0 auto' }}>
       <FlipCard>
         <FrontCard isCardFlipped={isMinted}>
           <div className='message-export' id='message-export'>
@@ -75,7 +83,7 @@ const MessagePreview = ({ values, placeholders, isMinted, setIsMinted }) => {
               <div className='confirm-links'>
                 <a
                   className='confirm-link'
-                  href='www.opensea.io'
+                  href={`https://testnets.opensea.io/assets/goerli/0x419a900b9a31f58506620ed5e67ec99e7b5b18e5/${tokenId}`}
                   target='_blank'
                   rel='noreferrer'
                 >
@@ -84,7 +92,7 @@ const MessagePreview = ({ values, placeholders, isMinted, setIsMinted }) => {
                 </a>
                 <a
                   className='confirm-link'
-                  href='www.opensea.io'
+                  href={`https://goerli.etherscan.io/tx/${transactionHash}`}
                   target='_blank'
                   rel='noreferrer'
                 >

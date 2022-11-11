@@ -7,18 +7,17 @@ require('dotenv').config();
  */
 module.exports = {
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
     apiKey: process.env.ETHERSCAN_KEY,
   },
   defaultNetwork: 'hardhat',
   networks: {
     // hardhat: {
-    //   chainId: 1337,
+    //   chainId: 31337,
     // },
     goerli: {
       url: process.env.GOERLI_ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY],
+      gasPrice: 5000000000,
     },
     // mainnet: {
     //   chainId: 1,
