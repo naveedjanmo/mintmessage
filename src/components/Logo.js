@@ -1,9 +1,10 @@
 import React from 'react';
+import logo from '../assets/speech-balloon-emoji.png';
 
 const Logo = function () {
   return (
     <a className='logo-wrap' href='/'>
-      <h1>💬</h1>
+      <img className='logo' src={logo} alt='speech balloon emoji' />
       <h1 className='logo-text'>mintmessage</h1>
     </a>
   );

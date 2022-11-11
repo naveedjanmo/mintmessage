@@ -71,6 +71,7 @@ main {
   text-decoration: none;
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 8px;
 }
 
@@ -78,8 +79,9 @@ main {
   font-size: 24px;
 }
 
-.logo-text {
-  line-height: 130%;
+.logo {
+  height: 24px;
+  margin-top: 4px;
 }
 
 .content-wrap {
@@ -154,9 +156,10 @@ main {
 
 .input {
   display: block;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   padding: 12px;
   width: 100%;
+  border: none;
   border: 2px solid #dcdcdc;
   border-radius: 1rem;
   font-family: inherit;
@@ -166,8 +169,9 @@ main {
 }
 
 .input:focus {
-  outline: 2px solid #c850c0;
-  outline-offset: -2px;
+  outline: none;
+  box-shadow: 0 0 0 2px #c850c0;
+  /* box-shadow: inset 0 0 0 2px #f8a100; */
 }
 
 .input-error {

@@ -119,10 +119,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING Download for testing */
-      // link.download = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       /* 2. Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -150,12 +150,6 @@ const App = () => {
         console.log('Mining...');
         await transaction.wait();
         setTransactionHash(transaction.hash);
-
-        // const onNewMessage = (sender, tokenId) => {
-        //   console.log('NewMessage', sender, tokenId);
-        // };
-
-        // contract.on('NewMessageMinted', onNewMessage);
 
         console.log('Minted!');
         setIsMinted(true);
