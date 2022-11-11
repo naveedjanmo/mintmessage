@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import { formatDate, formatAddress } from '../utils/utils';
-import twitterIcon from '../assets/twitter-icon.svg';
+import ContactTag from './ContactTag';
+
 import closeIcon from '../assets/close-icon.svg';
 import linkOutIcon from '../assets/link-out-icon.svg';
 
@@ -16,7 +17,6 @@ const MessagePreview = ({
   tokenId,
 }) => {
   const { address } = useAccount();
-  const newTwitter = values.twitter.replace(/[^A-Za-z0-9_]/g, '');
 
   return (
     // <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
@@ -47,13 +47,41 @@ const MessagePreview = ({
                   </p>
                 </div>
                 <div className='message-footer'>
-                  <p>Reply on Twitter</p>
-                  <div className='tag'>
-                    <img src={twitterIcon} alt='Twitter icon' />
-                    <span>
-                      @{newTwitter ? newTwitter : placeholders.twitter}
-                    </span>
-                  </div>
+                  <p>Reply via</p>
+                  {!values.twitter && !values.discord ? (
+                    <>
+                      <ContactTag
+                        platform='twitter'
+                        values={values}
+                        placeholders={placeholders}
+                      />
+                      <ContactTag
+                        platform='discord'
+                        values={values}
+                        placeholders={placeholders}
+                      />
+                    </>
+                  ) : (
+                    ''
+                  )}
+                  {values.twitter ? (
+                    <ContactTag
+                      platform='twitter'
+                      values={values}
+                      placeholders={placeholders}
+                    />
+                  ) : (
+                    ''
+                  )}
+                  {values.discord ? (
+                    <ContactTag
+                      platform='discord'
+                      values={values}
+                      placeholders={placeholders}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </div>
               </div>
             </div>

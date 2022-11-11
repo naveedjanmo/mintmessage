@@ -5,6 +5,7 @@ const useForm = (callback, validateForm) => {
     toAddress: '',
     message: '',
     twitter: '',
+    discord: '',
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);

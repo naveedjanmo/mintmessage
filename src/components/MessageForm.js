@@ -21,6 +21,10 @@ const MessageForm = ({
     `input small ${errors.twitter ? 'input-error' : ''}`;
   const twitterInputWrapClass = () =>
     `input-wrap ${errors.twitter ? 'input-wrap-error' : ''}`;
+  const discordInputClass = () =>
+    `input small ${errors.discord ? 'input-error' : ''}`;
+  const discordInputWrapClass = () =>
+    `input-wrap ${errors.discord ? 'input-wrap-error' : ''}`;
 
   return (
     <div className='form-wrap'>
@@ -51,15 +55,28 @@ const MessageForm = ({
           />
         </div>
 
-        <div className={twitterInputWrapClass()}>
-          <label>Your Twitter</label>
-          <input
-            id='twitter'
-            className={twitterInputClass()}
-            placeholder={placeholders.twitter}
-            value={values.twitter}
-            onChange={handleChange}
-          ></input>
+        <div className='reply-input-wrap'>
+          <div className={twitterInputWrapClass()}>
+            <label>Your Twitter</label>
+            <input
+              id='twitter'
+              className={twitterInputClass()}
+              placeholder={placeholders.twitter}
+              value={values.twitter}
+              onChange={handleChange}
+            ></input>
+          </div>
+
+          <div className={discordInputWrapClass()}>
+            <label>Your Discord</label>
+            <input
+              id='discord'
+              className={discordInputClass()}
+              placeholder={placeholders.discord}
+              value={values.discord}
+              onChange={handleChange}
+            ></input>
+          </div>
         </div>
         <MintButton isLoading={isLoading} />
       </form>

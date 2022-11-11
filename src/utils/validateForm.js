@@ -11,9 +11,12 @@ const validateForm = (values) => {
   if (!values.message) {
     errors.message = 'Message required';
   }
-  if (!values.twitter) {
-    errors.twitter = 'Twitter required';
+
+  if (!values.twitter && !values.discord) {
+    errors.twitter = 'Contact method required';
+    errors.discord = 'Contact method required';
   }
+
   return errors;
 };
 

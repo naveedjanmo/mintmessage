@@ -97,7 +97,8 @@ const App = () => {
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
     message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`,
-    twitter: 'punk6529',
+    twitter: 'naveedjanmo',
+    discord: 'naveed#6400',
   };
 
   async function createNFT() {

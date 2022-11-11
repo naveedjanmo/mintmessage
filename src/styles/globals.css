@@ -69,10 +69,17 @@ main {
   font-size: 24px;
   font-weight: 600;
   text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
 
 .logo-wrap h1 {
   font-size: 24px;
+}
+
+.logo-text {
+  line-height: 130%;
 }
 
 .content-wrap {
@@ -129,6 +136,7 @@ main {
   position: relative;
   padding-bottom: 24px;
   font-size: 16px;
+  flex-grow: 1;
 }
 
 .input-wrap label {
@@ -186,6 +194,13 @@ main {
 
 .input.large {
   height: 220px;
+}
+
+.reply-input-wrap {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
 }
 
 .disabled {
@@ -293,8 +308,14 @@ main {
   font-weight: 600;
 
   padding: 16px 0;
-  background: #c850c0;
-  outline: 2px solid #c850c0;
+  /* background: #c850c0; */
+  background: linear-gradient(
+    45deg,
+    #4158d0 -8.56%,
+    #c850c0 50.53%,
+    #ffcc70 118.44%
+  );
+  /* outline: 2px solid #c850c0; */
 
   display: flex;
   flex-direction: column;
@@ -303,7 +324,7 @@ main {
 
 .message-body {
   padding: 20px 24px 24px 24px;
-  outline: 1px solid rgba(200, 80, 192, 0.2);
+  /* outline: 1px solid rgba(200, 80, 192, 0.2); */
   outline-offset: -1px;
   border-radius: 0 0 16px 16px;
   flex-grow: 1;
