@@ -570,6 +570,14 @@ main {
   .nav-wrap {
     padding: 48px 24px;
   }
+
+  .mint-button:hover {
+    scale: 1;
+  }
+
+  .nav-connect-button:hover {
+    scale: 1;
+  }
 }
 
 @media (max-width: 480px) {
@@ -591,6 +599,10 @@ main {
 
   .logo-wrap h1 {
     font-size: 22px;
+  }
+
+  .left {
+    padding: 32px 20px;
   }
 
   /* .nav-wrap {
