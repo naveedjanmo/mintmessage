@@ -140,25 +140,25 @@ const App = () => {
       console.log(`NFT URL: ${url}`);
 
       /* 3. Pop wallet and run createToken */
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-          mintMessageAddress,
-          MintMessage.abi,
-          signer
-        );
+      // if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        mintMessageAddress,
+        MintMessage.abi,
+        signer
+      );
 
-        let transaction = await contract.createToken(url, values.toAddress);
-        console.log('Mining...');
-        await transaction.wait();
-        setTransactionHash(transaction.hash);
+      let transaction = await contract.createToken(url, values.toAddress);
+      console.log('Mining...');
+      await transaction.wait();
+      setTransactionHash(transaction.hash);
 
-        console.log('Minted!');
-        setIsMinted(true);
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
+      console.log('Minted!');
+      setIsMinted(true);
+      // } else {
+      // console.log("Ethereum object doesn't exist!");
+      // }
     } catch (error) {
       console.log(error);
     } finally {
