@@ -16,14 +16,17 @@ import './styles/base.css';
 import './styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
+import { mintMessageAddress } from './utils/config';
+import MintMessage from './utils/MintMessage.json';
+import validateForm from './utils/validateForm';
+
 import useForm from './hooks/useForm';
+
 import Nav from './components/Nav';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
-import validateForm from './utils/validateForm';
-import { mintMessageAddress } from './utils/config';
-import MintMessage from './utils/MintMessage.json';
+import ConfirmMobile from './components/ConfirmMobile';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
@@ -207,14 +210,22 @@ const App = () => {
           <Nav />
           <section className='content-wrap'>
             <div className='left'>
-              <MessageForm
-                placeholders={placeholders}
-                values={values}
-                errors={errors}
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-                isLoading={isLoading}
-              />
+              {isMinted && window.innerWidth < 480 ? (
+                <ConfirmMobile
+                  transactionHash={transactionHash}
+                  tokenId={tokenId}
+                />
+              ) : (
+                <MessageForm
+                  placeholders={placeholders}
+                  values={values}
+                  errors={errors}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  isLoading={isLoading}
+                />
+              )}
+
               <Footer />
             </div>
             <div className='right'>

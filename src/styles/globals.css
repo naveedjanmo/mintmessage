@@ -489,6 +489,10 @@ main {
   height: 380px;
 }
 
+.confirm-wrap-mobile {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   body {
     overflow: visible;
@@ -497,7 +501,6 @@ main {
   .left {
     position: relative;
     width: 100vw;
-    overflow: hidden;
     padding-top: 40px;
     height: auto;
   }
@@ -529,11 +532,53 @@ main {
 }
 
 @media (max-width: 480px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  body {
+    position: relative;
+  }
+
   .connect-nav-wrap {
     font-size: 14px;
   }
 
   .logo-wrap h1 {
     font-size: 22px;
+  }
+
+  .nav-wrap {
+    height: 10vh;
+    z-index: 2;
+  }
+
+  .left {
+    position: fixed;
+    height: 90%;
+
+    padding-bottom: 24px;
+    margin-top: 10vh;
+
+    z-index: 1;
+    background: #fff;
+  }
+
+  .confirm-wrap-mobile {
+    display: block;
+  }
+
+  /*
+  .right {
+    left: auto;
+    top: auto;
+  } */
+
+  .animated-box {
+    /* width: 100vw; */
+  }
+
+  .flip-wrap {
+    opacity: 0;
   }
 }
