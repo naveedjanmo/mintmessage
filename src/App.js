@@ -120,10 +120,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING Download for testing */
-      // link.download = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       /* 2. Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;

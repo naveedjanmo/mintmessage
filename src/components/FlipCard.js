@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 let AnimatedBox = motion.div;
@@ -26,24 +26,31 @@ const flipVariants = {
   },
 };
 
+// const styleDesktop = {
+//   position: 'relative',
+//   transformStyle: 'preserve-3d',
+//   width: 480,
+//   height: 380,
+// };
+
+// const styleMobile = {
+//   position: 'relative',
+//   transformStyle: 'preserve-3d',
+//   width: 480 / 2,
+//   height: 380 / 2,
+// };
+
 export default function FlipCard({ children }) {
   return (
-    <AnimatedBox
-      style={{
-        perspective: 1000,
-      }}
-    >
+    <div className='flip-wrap'>
       <AnimatedBox
         style={{
-          position: 'relative',
-          transformStyle: 'preserve-3d',
-          width: 480,
-          height: 380,
+          perspective: 1000,
         }}
       >
-        {children}
+        <AnimatedBox className='animated-box'>{children}</AnimatedBox>
       </AnimatedBox>
-    </AnimatedBox>
+    </div>
   );
 }
 

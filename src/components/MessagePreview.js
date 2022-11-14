@@ -19,8 +19,8 @@ const MessagePreview = ({
   const { address } = useAccount();
 
   return (
-    // <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
-    <div style={{ flex: '0 0 auto' }}>
+    <div style={{ flex: '0 0 auto' }} onClick={() => setIsMinted(!isMinted)}>
+      {/* <div style={{ flex: '0 0 auto' }}> */}
       <FlipCard>
         <FrontCard isCardFlipped={isMinted}>
           <div className='message-export' id='message-export'>

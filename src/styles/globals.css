@@ -12,6 +12,7 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   overflow: hidden;
+  max-width: 100%;
 }
 
 h1 {
@@ -481,6 +482,13 @@ main {
   width: 8px;
 }
 
+.animated-box {
+  position: relative;
+  transform-style: preserve-3d;
+  width: 480px;
+  height: 380px;
+}
+
 @media (max-width: 1024px) {
   body {
     overflow: visible;
@@ -518,16 +526,9 @@ main {
   .nav-wrap {
     padding: 48px 24px;
   }
-
-  .message-export {
-    scale: 0.95;
-  }
 }
 
-@media (max-width: 474px) {
-  .message-export {
-    scale: 0.7;
-  }
+@media (max-width: 480px) {
   .connect-nav-wrap {
     font-size: 14px;
   }
