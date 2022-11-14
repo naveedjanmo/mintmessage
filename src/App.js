@@ -64,7 +64,6 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Remove horizontal scroll on mobile
 // - Test mint on mobile - don't think its working (think this is a scale thing)
 // - Add mint detail - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Push to mainnet
@@ -123,10 +122,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING Download for testing */
-      link.download = 'downloaded-image';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // link.download = 'downloaded-image';
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       /* 2. Create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;

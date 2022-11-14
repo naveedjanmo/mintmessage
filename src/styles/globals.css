@@ -176,7 +176,8 @@ main {
 }
 
 .input-error {
-  outline: 2px solid #ff4342;
+  box-shadow: 0 0 0 2px #ff4342;
+
   outline-offset: -2px;
 }
 
