@@ -8,6 +8,7 @@ const MessageForm = ({
   handleChange,
   handleSubmit,
   errors,
+  setBanner,
 }) => {
   const toAddressInputClass = () =>
     `input small ${errors.toAddress ? 'input-error' : ''}`;
@@ -78,7 +79,7 @@ const MessageForm = ({
             ></input>
           </div>
         </div>
-        <MintButton isLoading={isLoading} />
+        <MintButton isLoading={isLoading} setBanner={setBanner} />
       </form>
     </div>
   );

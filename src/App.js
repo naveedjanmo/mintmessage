@@ -11,6 +11,7 @@ import {
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 import html2canvas from 'html2canvas';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import './styles/base.css';
 import './styles/globals.css';
@@ -26,7 +27,7 @@ import Nav from './components/Nav';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
-import ConfirmMobile from './components/ConfirmMobile';
+// import ConfirmMobile from './components/ConfirmMobile';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
@@ -64,7 +65,6 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Test mint on mobile - don't think its working (think this is a scale thing)
 // - Add mint detail - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Push to mainnet
 //    - Deploy contract
@@ -75,6 +75,7 @@ const client = create({
 //    - Remove any test code
 //    - Write tweet and publish
 /* v2 */
+// - Fix mint on mobile
 // - Add a character count indicator to message input
 // - Add ens support
 // - Better input sanitization
@@ -96,6 +97,7 @@ const App = () => {
   const [transactionHash, setTransactionHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
+  const [banner, setBanner] = useState(false);
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
@@ -140,7 +142,6 @@ const App = () => {
       console.log(`NFT URL: ${url}`);
 
       /* 3. Pop wallet and run createToken */
-      // if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -156,9 +157,6 @@ const App = () => {
 
       console.log('Minted!');
       setIsMinted(true);
-      // } else {
-      // console.log("Ethereum object doesn't exist!");
-      // }
     } catch (error) {
       console.log(error);
     } finally {
@@ -171,8 +169,6 @@ const App = () => {
     let contract;
 
     const onNewMessage = (sender, tokenId) => {
-      // console.log('NewMessage', sender, tokenId.toString());
-
       setTokenId(tokenId.toString());
     };
 
@@ -206,24 +202,38 @@ const App = () => {
         })}
       >
         <main>
-          <Nav />
+          <AnimatePresence>
+            {banner && (
+              <motion.div
+                className='banner'
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+              >
+                <p>I only work on desktop for now 😕</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <Nav setBanner={setBanner} />
           <section className='content-wrap'>
             <div className='left'>
-              {isMinted && window.innerWidth < 480 ? (
+              {/* {isMinted && window.innerWidth < 480 ? (
                 <ConfirmMobile
                   transactionHash={transactionHash}
                   tokenId={tokenId}
                 />
-              ) : (
-                <MessageForm
-                  placeholders={placeholders}
-                  values={values}
-                  errors={errors}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  isLoading={isLoading}
-                />
-              )}
+              ) : ( */}
+              <MessageForm
+                placeholders={placeholders}
+                values={values}
+                errors={errors}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                isLoading={isLoading}
+                setBanner={setBanner}
+              />
+              {/* )} */}
 
               <Footer />
             </div>

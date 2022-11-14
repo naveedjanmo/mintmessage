@@ -3,7 +3,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import LoadingIndicator from './LoadingIndicator';
 
-function MintButton({ isLoading }) {
+function MintButton({ isLoading, setBanner }) {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -22,6 +22,12 @@ function MintButton({ isLoading }) {
         {isLoading ? <LoadingIndicator /> : 'Mint'}
       </button>
       // </div>
+    );
+  } else if (window.innerWidth < 750) {
+    return (
+      <button type='button' className='mint-button' onClick={setBanner}>
+        Connect Wallet
+      </button>
     );
   } else {
     return (

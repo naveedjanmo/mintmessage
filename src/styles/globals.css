@@ -219,6 +219,25 @@ main {
 
 /* Mint detail info - price, gas etc. */
 
+.nav-connect-button {
+  cursor: pointer;
+  padding: 12px 12px;
+  line-height: 1;
+  /* height: 54px; */
+  border-radius: 0.8rem;
+  background: #c850c0;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+
+  color: #fff;
+  transition: all 0.25s ease;
+}
+
+.nav-connect-button:hover {
+  scale: 1.025;
+}
+
 .mint-button-wrap {
   display: flex;
   flex-direction: column;
@@ -494,6 +513,21 @@ main {
   display: none;
 }
 
+.banner {
+  width: 100%;
+  padding: 6px;
+  background: #eb4d4b;
+  display: none;
+}
+
+.banner p {
+  color: #ffff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
 @media (max-width: 1024px) {
   body {
     overflow: visible;
@@ -519,6 +553,13 @@ main {
 }
 
 @media (max-width: 750px) {
+  .banner {
+    display: block;
+  }
+
+  /* .connect-nav-wrap {
+    display: none;
+  } */
   .left {
     padding: 40px 24px;
   }
@@ -541,6 +582,10 @@ main {
     position: relative;
   }
 
+  .message-export {
+    scale: 0.7;
+  }
+
   .connect-nav-wrap {
     font-size: 14px;
   }
@@ -549,7 +594,7 @@ main {
     font-size: 22px;
   }
 
-  .nav-wrap {
+  /* .nav-wrap {
     height: 10vh;
     z-index: 2;
   }
@@ -567,19 +612,10 @@ main {
 
   .confirm-wrap-mobile {
     display: block;
-  }
-
-  /*
-  .right {
-    left: auto;
-    top: auto;
-  } */
-
-  .animated-box {
-    /* width: 100vw; */
-  }
+  } 
 
   .flip-wrap {
     opacity: 0;
   }
+  */
 }
