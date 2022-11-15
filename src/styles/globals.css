@@ -131,8 +131,8 @@ main {
 }
 
 .welcome-message {
-  margin-left: 16px;
-  margin-bottom: 32px;
+  margin-left: 8px;
+  margin-bottom: 24px;
 }
 
 .input-wrap {
@@ -209,16 +209,6 @@ main {
   width: 100%;
 }
 
-.disabled {
-  cursor: not-allowed !important;
-}
-
-.disabled:hover {
-  scale: 1 !important;
-}
-
-/* Mint detail info - price, gas etc. */
-
 .nav-connect-button {
   cursor: pointer;
   padding: 12px 12px;
@@ -242,25 +232,35 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 8px;
 }
 
 .mint-info {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 400;
+  color: #7b7b7b;
 }
 
-.mint-info-right {
-  padding-right: 24px;
+.footer-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
-.mint-info-left {
-  padding-left: 24px;
+.footer-info img {
+  height: 12px;
+}
+
+.footer-info p {
+  color: #7b7b7b;
 }
 
 .footer {
@@ -270,9 +270,9 @@ main {
 
   margin-top: 32px;
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  color: #969696;
+  color: #7b7b7b;
 }
 
 .footer a {
@@ -296,6 +296,16 @@ main {
 
 .mint-button:hover {
   scale: 1.025;
+}
+
+.disabled {
+  background: #e0e0e0;
+  color: #7e7e7e;
+  cursor: not-allowed !important;
+}
+
+.disabled:hover {
+  scale: 1 !important;
 }
 
 .connected {

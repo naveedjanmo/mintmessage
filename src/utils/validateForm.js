@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 const validateForm = (values) => {
   let errors = {};
-  if (!values.toAddress.trim()) {
+  if (!values.toAddress) {
     errors.toAddress = 'Address required';
   } else if (!ethers.utils.isAddress(values.toAddress)) {
     errors.toAddress = 'Invalid address';

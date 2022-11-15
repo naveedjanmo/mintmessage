@@ -22,6 +22,7 @@ import MintMessage from './utils/MintMessage.json';
 import validateForm from './utils/validateForm';
 
 import useForm from './hooks/useForm';
+import useFees from './hooks/useFees';
 
 import Nav from './components/Nav';
 import MessageForm from './components/MessageForm';
@@ -65,7 +66,6 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Add mint detail - mint price: free, gas price 000.000 ($..). See AB screenshot in screenshots
 // - Push to mainnet
 //    - Deploy contract
 //    - Clear IPFS pins on infura
@@ -93,6 +93,7 @@ const App = () => {
     createNFT,
     validateForm
   );
+  const { fees } = useFees();
   const [tokenId, setTokenId] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -101,7 +102,7 @@ const App = () => {
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
-    message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter DMs if you want to make a deal.`,
+    message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
     twitter: 'naveedjanmo',
     discord: 'naveed#6400',
   };
@@ -218,12 +219,6 @@ const App = () => {
           <Nav setBanner={setBanner} />
           <section className='content-wrap'>
             <div className='left'>
-              {/* {isMinted && window.innerWidth < 480 ? (
-                <ConfirmMobile
-                  transactionHash={transactionHash}
-                  tokenId={tokenId}
-                />
-              ) : ( */}
               <MessageForm
                 placeholders={placeholders}
                 values={values}
@@ -233,9 +228,7 @@ const App = () => {
                 isLoading={isLoading}
                 setBanner={setBanner}
               />
-              {/* )} */}
-
-              <Footer />
+              <Footer fees={fees} />
             </div>
             <div className='right'>
               <MessagePreview

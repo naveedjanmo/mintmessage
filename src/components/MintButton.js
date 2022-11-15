@@ -4,7 +4,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import LoadingIndicator from './LoadingIndicator';
 
-function MintButton({ isLoading, setBanner }) {
+function MintButton({ isLoading, setBanner, fees, values, errors }) {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -19,23 +19,14 @@ function MintButton({ isLoading, setBanner }) {
     };
   }, []);
 
-  if (isConnected) {
-    return (
-      // <div className='mint-button-wrap'>
-      //   <div className='mint-info'>
-      //     <div className='mint-info-left'>
-      //       <p>Price: FREE!</p>
-      //     </div>
-      //     <div className='mint-info-right'>
-      //       <p>Gas: </p>
-      //     </div>
-      //   </div>
-      <button className='mint-button connected'>
-        {isLoading ? <LoadingIndicator /> : 'Mint'}
-      </button>
-      // </div>
-    );
-  } else if (width < breakpoint) {
+  const disabled =
+    !values.toAddress ||
+    !values.message ||
+    (!values.twitter && !values.discord);
+
+  if (isConnected && disabled) {
+    return <button className='mint-button disabled'>Mint</button>;
+  } else if (!isConnected && width < breakpoint) {
     return (
       <button type='button' className='mint-button' onClick={setBanner}>
         Connect Wallet
@@ -43,8 +34,8 @@ function MintButton({ isLoading, setBanner }) {
     );
   } else {
     return (
-      <button type='button' className='mint-button' onClick={openConnectModal}>
-        Connect Wallet
+      <button className='mint-button'>
+        {isLoading ? <LoadingIndicator /> : 'Mint'}
       </button>
     );
   }

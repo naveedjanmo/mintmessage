@@ -25,9 +25,8 @@ const MessagePreview = ({
         boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.025)',
         borderRadius: '1em',
       }}
-      onClick={() => setIsMinted(!isMinted)}
+      // onClick={() => setIsMinted(!isMinted)}
     >
-      {/* <div style={{ flex: '0 0 auto' }}> */}
       <FlipCard>
         <FrontCard isCardFlipped={isMinted}>
           <div className='message-export' id='message-export'>
@@ -112,9 +111,6 @@ const MessagePreview = ({
                   next few minutes.
                 </p>
               </div>
-
-              {/* <div className='confirm-footer'> */}
-              {/* <div className='message-separator'></div> */}
               <div className='confirm-links'>
                 <a
                   className='confirm-link'
@@ -135,7 +131,6 @@ const MessagePreview = ({
                   <img src={linkOutIcon} alt='link icon' />
                 </a>
               </div>
-              {/* </div> */}
             </div>
           </div>
         </BackCard>
