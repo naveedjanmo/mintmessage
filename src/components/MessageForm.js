@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MintButton from './MintButton';
 
 const MessageForm = ({
@@ -9,24 +9,8 @@ const MessageForm = ({
   handleSubmit,
   errors,
   setBanner,
+  fees,
 }) => {
-  // const toAddressInputClass = () =>
-  //   `input small ${errors.toAddress ? 'input-error' : ''}`;
-  // const toAddressInputWrapClass = () =>
-  //   `input-wrap ${errors.toAddress ? 'input-wrap-error' : ''}`;
-  // const messageInputClass = () =>
-  //   `input large ${errors.message ? 'input-error' : ''}`;
-  // const messageInputWrapClass = () =>
-  //   `input-wrap ${errors.message ? 'input-wrap-error' : ''}`;
-  // const twitterInputClass = () =>
-  //   `input small ${errors.twitter ? 'input-error' : ''}`;
-  // const twitterInputWrapClass = () =>
-  //   `input-wrap ${errors.twitter ? 'input-wrap-error' : ''}`;
-  // const discordInputClass = () =>
-  //   `input small ${errors.discord ? 'input-error' : ''}`;
-  // const discordInputWrapClass = () =>
-  //   `input-wrap ${errors.discord ? 'input-wrap-error' : ''}`;
-
   return (
     <div className='form-wrap'>
       <p className='welcome-message'>
@@ -84,6 +68,7 @@ const MessageForm = ({
           setBanner={setBanner}
           values={values}
           errors={errors}
+          fees={fees}
         />
       </form>
     </div>

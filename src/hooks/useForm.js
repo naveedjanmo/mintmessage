@@ -16,7 +16,6 @@ const useForm = (callback, validateForm) => {
       ...values,
       [id]: value,
     });
-    // validateForm(values);
   };
 
   const handleSubmit = (e) => {

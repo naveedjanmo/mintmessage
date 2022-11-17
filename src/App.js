@@ -66,6 +66,7 @@ const client = create({
 
 // TODO
 /* v1 */
+// - More sol testing
 // - Push to mainnet
 //    - Deploy contract
 //    - Clear IPFS pins on infura
@@ -93,7 +94,7 @@ const App = () => {
     createNFT,
     validateForm
   );
-  const { fees } = useFees();
+  const { fees, feesLoading } = useFees();
   const [tokenId, setTokenId] = useState('');
   const [transactionHash, setTransactionHash] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -227,8 +228,9 @@ const App = () => {
                 handleSubmit={handleSubmit}
                 isLoading={isLoading}
                 setBanner={setBanner}
+                fees={fees}
               />
-              <Footer fees={fees} />
+              <Footer fees={fees} feesLoading={feesLoading} />
             </div>
             <div className='right'>
               <MessagePreview

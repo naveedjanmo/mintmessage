@@ -1,9 +1,11 @@
 import React from 'react';
 import './LoadingIndicator.css';
 
-const LoadingIndicator = () => {
+const LoadingIndicator = ({ color }) => {
+  const ldsRing = () => `${color === 'dark' ? 'lds-ring dark' : 'lds-ring'}`;
+
   return (
-    <div className="lds-ring">
+    <div className={ldsRing()}>
       <div></div>
       <div></div>
       <div></div>

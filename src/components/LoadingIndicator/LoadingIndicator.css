@@ -18,6 +18,17 @@
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #fff transparent transparent transparent;
 }
+
+.dark {
+  scale: 0.55;
+  opacity: 0.5;
+  margin-bottom: 2px;
+}
+
+.dark div {
+  border-color: #7e7e7e transparent transparent transparent;
+}
+
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
 }

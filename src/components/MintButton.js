@@ -3,8 +3,9 @@ import { useAccount } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import LoadingIndicator from './LoadingIndicator';
+import gasIcon from '../assets/gas-icon.svg';
 
-function MintButton({ isLoading, setBanner, fees, values, errors }) {
+function MintButton({ isLoading, setBanner, fees }) {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -19,14 +20,24 @@ function MintButton({ isLoading, setBanner, fees, values, errors }) {
     };
   }, []);
 
-  const disabled =
-    !values.toAddress ||
-    !values.message ||
-    (!values.twitter && !values.discord);
-
-  if (isConnected && disabled) {
-    return <button className='mint-button disabled'>Mint</button>;
-  } else if (!isConnected && width < breakpoint) {
+  if (isConnected) {
+    return (
+      // <div className='mint-button-wrap'>
+      <button className='mint-button'>
+        {isLoading ? <LoadingIndicator /> : 'Mint'}
+      </button>
+      // <div className='button-detail'>
+      //   <div className='footer-info'>
+      //     <p>Free Mint</p>
+      //   </div>
+      //   <div className='footer-info'>
+      //     <img src={gasIcon} alt='gas icon' />
+      //     <p>${fees.transactionFee}</p>
+      //   </div>
+      // </div>
+      // </div>
+    );
+  } else if (width < breakpoint) {
     return (
       <button type='button' className='mint-button' onClick={setBanner}>
         Connect Wallet
@@ -34,8 +45,8 @@ function MintButton({ isLoading, setBanner, fees, values, errors }) {
     );
   } else {
     return (
-      <button className='mint-button'>
-        {isLoading ? <LoadingIndicator /> : 'Mint'}
+      <button type='button' className='mint-button' onClick={openConnectModal}>
+        Connect Wallet
       </button>
     );
   }
