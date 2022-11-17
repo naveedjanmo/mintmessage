@@ -1,3 +1,3 @@
 
-  export const mintMessageAddress = "0xc84Da34d29f66E854B9Ba5bBb15E1BFD687f882b"
+  export const mintMessageAddress = "0xd47e8277Cb80894BC6a96DD967ddD52690ebe96E"
   
