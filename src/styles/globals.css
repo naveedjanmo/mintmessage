@@ -422,6 +422,7 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 3px;
 
   padding: 2px 8px;
@@ -440,7 +441,7 @@ main {
 }
 
 .tag span {
-  margin-bottom: 2px;
+  margin-bottom: 2.5px;
 }
 
 .tag-outline {

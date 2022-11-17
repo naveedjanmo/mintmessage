@@ -66,7 +66,7 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Fix image quality and
+// - Fix image quality and tag text align
 // - Push to matic
 //    - Deploy contract
 //    - Clear IPFS pins on infura
@@ -115,7 +115,6 @@ const App = () => {
       setIsMinted(false);
       /* pick and export div as image */
       const element = document.getElementById('message-export');
-      element.imageSmoothingEnabled = true;
       const canvas = await html2canvas(element, {
           backgroundColor: null,
           scale: 5,
@@ -125,10 +124,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING download for testing */
-      // link.download = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;

@@ -20,7 +20,7 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     /**
      * @notice Mint price set to 0 by default.
      */
-    uint256 public mintPrice  = 0 ether;
+    uint256 public mintPrice = 0 ether;
 
     constructor() ERC721("MintMessage", "MSG") {}
 
