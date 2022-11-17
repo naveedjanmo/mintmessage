@@ -32,9 +32,9 @@ import Footer from './components/Footer';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.goerli],
+  [chain.goerli, chain.mainnet],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -66,26 +66,25 @@ const client = create({
 
 // TODO
 /* v1 */
-// - More sol testing
-// - Push to mainnet
+// - Fix image quality and
+// - Push to matic
 //    - Deploy contract
 //    - Clear IPFS pins on infura
 //    - Replace link prefixes with mainnet versions (confirm message, footer link)
 //    - Add royalties on Manifold and OS (10%)
 //    - Submit first message to self
 //    - Remove any test code
-//    - Write tweet and publish
+//    - Publish repo
 /* v2 */
 // - Fix mint on mobile
 // - Add a character count indicator to message input
 // - Add ens support
-// - Better input sanitization
+// - Better input sanitize
 //    - Remove 'https://twitter.com/' if include
-//    - Tidy discord input
-// - Better error indicator behavior - remove red when focused
-// - Load animation? https://codesandbox.io/s/uotor?module=%2Fsrc%2FExample.tsx
-// - mouseover tilt message animation
-// - Stages to loading (see rainbow project above)
+//    - Format discord input
+// - Better error handling (greyed out mint button)
+// - Mouseover tilt message anim
+// - Stages to loading: connecting, exporting message,
 // - Style rainbow components - font
 
 const App = () => {
@@ -114,7 +113,7 @@ const App = () => {
     try {
       setIsLoading(true);
       setIsMinted(false);
-      /* 1. Pick and export div as image */
+      /* pick and export div as image */
       const element = document.getElementById('message-export');
       element.imageSmoothingEnabled = true;
       const canvas = await html2canvas(element, {
@@ -125,13 +124,13 @@ const App = () => {
         link = document.createElement('a');
       link.href = file;
 
-      /* TESTING Download for testing */
+      /* TESTING download for testing */
       // link.download = 'downloaded-image';
       // document.body.appendChild(link);
       // link.click();
       // document.body.removeChild(link);
 
-      /* 2. Create NFT metadata, include png base64 and upload to IPFS */
+      /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
       const data = JSON.stringify({
         name: 'You received a mintmessage!',
@@ -140,10 +139,10 @@ const App = () => {
         image: file,
       });
       const added = await client.add(data);
-      const url = `https://infura-ipfs.io/ipfs/${added.path}`; // NFT URL
-      console.log(`NFT URL: ${url}`);
+      const cid = `${added.path}`;
+      console.log(`Infura CID: ${cid}`);
 
-      /* 3. Pop wallet and run createToken */
+      /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -152,17 +151,16 @@ const App = () => {
         signer
       );
 
-      let transaction = await contract.createToken(url, values.toAddress);
+      let transaction = await contract.createMessage(cid, values.toAddress);
       console.log('Mining...');
       await transaction.wait();
       setTransactionHash(transaction.hash);
 
       console.log('Minted!');
       setIsMinted(true);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -170,7 +168,7 @@ const App = () => {
     const { ethereum } = window;
     let contract;
 
-    const onNewMessage = (sender, tokenId) => {
+    const onCreateMessage = (sender, recipient, tokenId) => {
       setTokenId(tokenId.toString());
     };
 
@@ -182,12 +180,12 @@ const App = () => {
         MintMessage.abi,
         signer
       );
-      contract.on('NewMessageMinted', onNewMessage);
+      contract.on('CreateMessage', onCreateMessage);
     }
 
     return () => {
       if (contract) {
-        contract.off('NewMintMessageMinted', onNewMessage);
+        contract.off('NewMintMessageMinted', onCreateMessage);
       }
     };
   }, []);

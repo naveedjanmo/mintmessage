@@ -17,8 +17,13 @@ module.exports = {
     goerli: {
       url: process.env.GOERLI_ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY],
-      gasPrice: 5000000000,
+      gasPrice: 500000000000,
     },
+    // mumbai: {
+    //   url: process.env.MUMBAI_ALCHEMY_KEY,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   gasPrice: 5000000000,
+    // },
     // mainnet: {
     //   chainId: 1,
     //   url: process.env.PROD_ALCHEMY_KEY,

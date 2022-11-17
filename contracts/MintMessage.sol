@@ -15,7 +15,7 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
-    event NewMessageMinted(address sender, address recipient, uint256 tokenId);
+    event CreateMessage(address sender, address recipient, uint256 tokenId);
 
     /**
      * @notice Mint price set to 0 by default.
@@ -24,13 +24,18 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
 
     constructor() ERC721("MintMessage", "MSG") {}
 
-    // ======================== Minting ========================
-
+    /**
+     * @notice Sets base URI to Infura.
+     * @dev Will be concatenated with CID to generate full token URI.
+     */
     function _baseURI() internal pure override returns (string memory) {
         return "https://infura-ipfs.io/ipfs/";
     }
 
-    function createToken(string memory _uri, address _to) public payable {
+    /**
+     * @notice Mints message to recipient.
+     */
+    function createMessage(string memory _uri, address _to) public payable {
         require(msg.value == mintPrice, "Insufficient funds");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
@@ -38,33 +43,33 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
         _mint(_to, tokenId);
         _setTokenURI(tokenId, _uri);
 
-        emit NewMessageMinted(msg.sender, _to, tokenId);
+        emit CreateMessage(msg.sender, _to, tokenId);
     }
 
-    // ========================= Utils =========================
-
     /**
-     * @notice Owner can update the mint price
+     * @notice Updates the mint price.
      */
     function updateMintPrice(uint _mintPrice) public payable onlyOwner {
         mintPrice = _mintPrice;
     }
 
     /**
-     * @notice Owner can withdraw contract balance
+     * @notice Withdraws funds from contract.
      */
     function withdrawFunds() public onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
 
     /**
-     * @notice Function overrides required by Solidity
+     * @dev Inheritance resolution.
      */
-
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
+    /**
+     * @dev Inheritance resolution.
+     */
     function tokenURI(uint256 tokenId)
         public
         view

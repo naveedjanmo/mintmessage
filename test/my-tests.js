@@ -10,12 +10,50 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient.address
       );
 
     expect(await mintMessage.balanceOf(recipient.address)).to.equal(1);
+  });
+
+  it('Should emit event on mint', async function () {
+    const MintMessage = await hre.ethers.getContractFactory('MintMessage');
+    const mintMessage = await MintMessage.deploy();
+    await mintMessage.deployed();
+    const [owner, creator, recipient] = await hre.ethers.getSigners();
+
+    expect(
+      await mintMessage
+        .connect(creator)
+        .createMessage(
+          'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
+          recipient.address
+        )
+    )
+      .to.emit(mintMessage, 'CreateMessage')
+      .withArgs(creator, recipient.address, 0);
+
+    expect(await mintMessage.balanceOf(recipient.address)).to.equal(1);
+  });
+
+  it('Should concatenate tokenURI correctly', async function () {
+    const MintMessage = await hre.ethers.getContractFactory('MintMessage');
+    const mintMessage = await MintMessage.deploy();
+    await mintMessage.deployed();
+    const [owner, creator, recipient] = await hre.ethers.getSigners();
+
+    await mintMessage
+      .connect(creator)
+      .createMessage(
+        'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
+        recipient.address
+      );
+
+    expect(await mintMessage.tokenURI(0)).to.equal(
+      'https://infura-ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt'
+    );
   });
 
   it('Should burn message', async function () {
@@ -26,7 +64,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient.address
       );
@@ -43,7 +81,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient.address
       );
@@ -61,7 +99,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         creator.address
       );
@@ -78,7 +116,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient1.address
       );
@@ -104,7 +142,7 @@ describe('MintMessage Contract', async function () {
     await expect(
       mintMessage
         .connect(creator)
-        .createToken(
+        .createMessage(
           'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
           recipient1.address,
           {
@@ -115,7 +153,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient1.address,
         {
@@ -137,7 +175,7 @@ describe('MintMessage Contract', async function () {
 
     await mintMessage
       .connect(creator)
-      .createToken(
+      .createMessage(
         'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
         recipient1.address,
         {

@@ -7,6 +7,7 @@ import closeIcon from '../assets/close-icon.svg';
 import linkOutIcon from '../assets/link-out-icon.svg';
 
 import FlipCard, { BackCard, FrontCard } from './FlipCard';
+import { mintMessageAddress } from '../utils/config';
 
 const MessagePreview = ({
   values,
@@ -114,7 +115,7 @@ const MessagePreview = ({
               <div className='confirm-links'>
                 <a
                   className='confirm-link'
-                  href={`https://testnets.opensea.io/assets/goerli/0x419a900b9a31f58506620ed5e67ec99e7b5b18e5/${tokenId}`}
+                  href={`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${tokenId}`}
                   target='_blank'
                   rel='noreferrer'
                 >
