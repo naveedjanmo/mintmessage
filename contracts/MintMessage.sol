@@ -1,44 +1,44 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "hardhat/console.sol";
 
 /**
  * @title mintmessage.xyz
- * @author @naveedjanmo
+ * @author naveed.so
  */
 contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    Counters.Counter private _tokenIdCounter;
 
-    /**
-     * @notice Emitted when a message is minted.
-     */
-    event NewMessageMinted(address sender, uint256 tokenId);
+    event NewMessageMinted(address sender, address recipient, uint256 tokenId);
 
     /**
      * @notice Mint price set to 0 by default.
      */
-    uint256 mintPrice = 0 ether;
+    uint256 public mintPrice  = 0 ether;
 
     constructor() ERC721("MintMessage", "MSG") {}
-    
+
     // ======================== Minting ========================
 
-    function createToken(string memory tokenURI, address to) public payable returns (uint){
-        require(msg.value == mintPrice);
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
-        
-        _mint(to, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+    function _baseURI() internal pure override returns (string memory) {
+        return "https://infura-ipfs.io/ipfs/";
+    }
 
-        emit NewMessageMinted(msg.sender, newItemId);
+    function createToken(string memory _uri, address _to) public payable {
+        require(msg.value == mintPrice, "Insufficient funds");
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        
+        _mint(_to, tokenId);
+        _setTokenURI(tokenId, _uri);
+
+        emit NewMessageMinted(msg.sender, _to, tokenId);
     }
 
     // ========================= Utils =========================
@@ -51,22 +51,20 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     }
 
     /**
-     * @notice Returns the mint price
+     * @notice Owner can withdraw contract balance
      */
-    function getMintPrice() public view returns (uint256) {
-        return mintPrice;
+    function withdrawFunds() public onlyOwner {
+        payable(msg.sender).transfer(address(this).balance);
     }
 
     /**
-     * @notice Holders can destroy tokens
+     * @notice Function overrides required by Solidity
      */
+
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }
 
-   /**
-     * @notice Query tokenURI with tokenId
-     */
     function tokenURI(uint256 tokenId)
         public
         view
