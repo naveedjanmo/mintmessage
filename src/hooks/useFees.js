@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 
 import { mintMessageAddress } from '../utils/config';
 import MintMessage from '../utils/MintMessage.json';
@@ -10,12 +11,13 @@ const useFees = () => {
     transactionFee: '',
   });
   const [feesLoading, setFeesLoading] = useState(true);
+  const { ethereum } = window;
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     async function getTransactionFee() {
-      const { ethereum } = window;
-
       try {
+        // console.log(feesLoading);
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
@@ -23,6 +25,8 @@ const useFees = () => {
           MintMessage.abi,
           signer
         );
+
+        // debugger;
         /* get network gas price */
         const gasPrice = await provider.getGasPrice();
         const gasPriceGwei = ethers.utils.formatUnits(gasPrice, 'gwei');
@@ -31,7 +35,7 @@ const useFees = () => {
 
         /* get function gas units */
         const gasUnits = await new contract.estimateGas.createMessage(
-          'https://ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
+          'QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt',
           '0x1F19FaF55eF10deB3Df7002265EFa583bE14AFAb'
         );
         // console.log('---Function Gas Units: ' + gasUnits);
@@ -42,9 +46,9 @@ const useFees = () => {
           transactionFeeWei,
           'ether'
         );
-        // console.log('---Transaction Fee (eth): ' + transactionFeeEther);
+        console.log('---Transaction Fee (eth): ' + transactionFeeEther);
 
-        /* fetch eth price */
+        // /* fetch eth price */
         const cgBaseEndpoint = `https://api.coingecko.com/api/v3/coins/ethereum`;
         const res = await fetch(`${cgBaseEndpoint}`, {
           headers: {
@@ -61,13 +65,13 @@ const useFees = () => {
           transactionFee: transactionFeeUsd.toFixed(2),
         });
       } catch (error) {
-        // console.log(error);
+        console.log(error);
       } finally {
         setFeesLoading(false);
       }
     }
     getTransactionFee();
-  }, []);
+  }, [isConnected]);
 
   return { fees, feesLoading };
 };

@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import LoadingIndicator from './LoadingIndicator';
 
-function MintButton({ isLoading, setBanner, fees }) {
+function MintButton({ isLoading, setBanner }) {
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
 

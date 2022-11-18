@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
  * @title mintmessage.xyz
- * @author naveed.so
+ * @author naveed.so      
  */
 contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
@@ -26,7 +26,6 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
 
     /**
      * @notice Sets base URI to Infura.
-     * @dev Will be concatenated with CID to generate full token URI.
      */
     function _baseURI() internal pure override returns (string memory) {
         return "https://infura-ipfs.io/ipfs/";
@@ -34,6 +33,7 @@ contract MintMessage is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
 
     /**
      * @notice Mints message to recipient.
+     * @dev Concatenates base URI with CID to generate full URI.
      */
     function createMessage(string memory _uri, address _to) public payable {
         require(msg.value == mintPrice, "Insufficient funds");

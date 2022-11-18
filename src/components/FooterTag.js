@@ -12,7 +12,7 @@ const ContactTag = ({ platform }) => {
           className='tag tag-outline'
           target='_blank'
           rel='noreferrer'
-          href={`https://goerli.etherscan.io/address/${mintMessageAddress}#code`}
+          href={`https://etherscan.io/address/${mintMessageAddress}#code`}
         >
           <img
             src={etherscanIcon}

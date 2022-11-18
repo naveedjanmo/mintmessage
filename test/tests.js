@@ -87,7 +87,7 @@ describe('MintMessage Contract', async function () {
       );
 
     await expect(mintMessage.connect(creator).burn(0)).to.be.revertedWith(
-      'ERC721: caller is not token owner nor approved'
+      'ERC721: caller is not token owner or approved'
     );
   });
 

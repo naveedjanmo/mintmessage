@@ -337,6 +337,8 @@ main {
   font-size: 20px;
   font-weight: 600;
 
+  border-radius: 1rem 1rem 0 0;
+
   padding: 16px 0;
   /* background: #c850c0; */
   background: linear-gradient(
@@ -356,7 +358,7 @@ main {
   padding: 20px 24px 24px 24px;
   /* outline: 1px solid #dee2ee; */
   outline-offset: -1px;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 1rem 1rem;
   flex-grow: 1;
   justify-content: space-between;
 }

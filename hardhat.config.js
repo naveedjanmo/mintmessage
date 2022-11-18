@@ -14,21 +14,17 @@ module.exports = {
     // hardhat: {
     //   chainId: 31337,
     // },
-    goerli: {
-      url: process.env.GOERLI_ALCHEMY_KEY,
+    // goerli: {
+    //   url: process.env.GOERLI_ALCHEMY_KEY,
+    //   accounts: [process.env.PRIVATE_KEY],
+    //   gasPrice: 100000000000, // in wei,
+    // },
+    mainnet: {
+      chainId: 1,
+      url: process.env.MAINNET_ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY],
-      gasPrice: 250000000000,
+      gasPrice: 13000000000, // in wei,
     },
-    // mumbai: {
-    //   url: process.env.MUMBAI_ALCHEMY_KEY,
-    //   accounts: [process.env.PRIVATE_KEY],
-    //   gasPrice: 5000000000,
-    // },
-    // mainnet: {
-    //   chainId: 1,
-    //   url: process.env.PROD_ALCHEMY_KEY,
-    //   accounts: [process.env.PRIVATE_KEY],
-    // },
   },
   solidity: {
     compilers: [{ version: '0.8.17' }],

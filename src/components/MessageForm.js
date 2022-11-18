@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MintButton from './MintButton';
 
 const MessageForm = ({
@@ -9,7 +9,6 @@ const MessageForm = ({
   handleSubmit,
   errors,
   setBanner,
-  fees,
 }) => {
   return (
     <div className='form-wrap'>
@@ -68,7 +67,6 @@ const MessageForm = ({
           setBanner={setBanner}
           values={values}
           errors={errors}
-          fees={fees}
         />
       </form>
     </div>

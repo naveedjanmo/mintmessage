@@ -28,11 +28,10 @@ import Nav from './components/Nav';
 import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
-// import ConfirmMobile from './components/ConfirmMobile';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.goerli, chain.mainnet],
+  [chain.mainnet],
   [
     alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
@@ -66,16 +65,14 @@ const client = create({
 
 // TODO
 /* v1 */
-// - Fix image quality and tag text align
-// - Push to matic
-//    - Deploy contract
-//    - Clear IPFS pins on infura
+// - Push to mainnet
 //    - Replace link prefixes with mainnet versions (confirm message, footer link)
 //    - Add royalties on Manifold and OS (10%)
 //    - Submit first message to self
 //    - Remove any test code
 //    - Publish repo
 /* v2 */
+// - Move Nav and Button responsive useEffect up (duplicate code)
 // - Fix mint on mobile
 // - Add a character count indicator to message input
 // - Add ens support
@@ -107,9 +104,9 @@ const App = () => {
     discord: 'naveed#6400',
   };
 
+  /* create message NFT */
   async function createNFT() {
     const { ethereum } = window;
-
     try {
       setIsLoading(true);
       setIsMinted(false);
@@ -124,10 +121,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING download for testing */
-      link.download = 'downloaded-image';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // link.download = 'downloaded-image';
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -154,7 +151,6 @@ const App = () => {
       console.log('Mining...');
       await transaction.wait();
       setTransactionHash(transaction.hash);
-
       console.log('Minted!');
       setIsMinted(true);
       setIsLoading(false);
@@ -163,6 +159,7 @@ const App = () => {
     }
   }
 
+  /* get tokenId from CreateMessage event  */
   useEffect(() => {
     const { ethereum } = window;
     let contract;
@@ -188,6 +185,11 @@ const App = () => {
       }
     };
   }, []);
+
+  /* reset card flip when form values change */
+  useEffect(() => {
+    setIsMinted(false);
+  }, [values]);
 
   return (
     <WagmiConfig client={wagmiClient}>
@@ -225,7 +227,6 @@ const App = () => {
                 handleSubmit={handleSubmit}
                 isLoading={isLoading}
                 setBanner={setBanner}
-                fees={fees}
               />
               <Footer fees={fees} feesLoading={feesLoading} />
             </div>

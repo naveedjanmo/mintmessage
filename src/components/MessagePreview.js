@@ -115,7 +115,7 @@ const MessagePreview = ({
               <div className='confirm-links'>
                 <a
                   className='confirm-link'
-                  href={`https://testnets.opensea.io/assets/goerli/${mintMessageAddress}/${tokenId}`}
+                  href={`https://opensea.io/assets/ethereum/${mintMessageAddress}/${tokenId}`}
                   target='_blank'
                   rel='noreferrer'
                 >
@@ -124,7 +124,7 @@ const MessagePreview = ({
                 </a>
                 <a
                   className='confirm-link'
-                  href={`https://goerli.etherscan.io/tx/${transactionHash}`}
+                  href={`https://etherscan.io/tx/${transactionHash}`}
                   target='_blank'
                   rel='noreferrer'
                 >
