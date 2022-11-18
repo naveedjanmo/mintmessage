@@ -66,9 +66,8 @@ const client = create({
 // TODO
 /* v1 */
 // - Push to mainnet
-//    - Replace link prefixes with mainnet versions (confirm message, footer link)
-//    - Add royalties on Manifold and OS (10%)
 //    - Submit first message to self
+//    - OS
 //    - Remove any test code
 //    - Publish repo
 /* v2 */
