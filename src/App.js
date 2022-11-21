@@ -32,8 +32,10 @@ import Footer from './components/Footer';
 /* WAGMI Config */
 const { chains, provider } = configureChains(
   [chain.mainnet],
+  // [chain.goerli],
   [
     alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -68,7 +70,7 @@ const client = create({
 // - Push to mainnet
 //    - Submit first message to self
 //    - OS
-//    - Remove any test code
+//    - Comment out test code
 //    - Publish repo
 /* v2 */
 // - Move Nav and Button responsive useEffect up (duplicate code)
@@ -95,10 +97,11 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
   const [banner, setBanner] = useState(false);
+  const [image, setImage] = useState();
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
-    message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
+    message: `Hello! I'm interested in buying Fidenza #313. I made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
     twitter: 'naveedjanmo',
     discord: 'nmj#6400',
   };
@@ -114,16 +117,18 @@ const App = () => {
       const canvas = await html2canvas(element, {
           backgroundColor: null,
           scale: 5,
+          scrollX: 0,
+          scrollY: -window.scrollY,
         }),
         file = canvas.toDataURL('image/png'),
         link = document.createElement('a');
       link.href = file;
 
       /* TESTING download for testing */
-      // link.download = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -135,7 +140,7 @@ const App = () => {
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
-      console.log(`Infura CID: ${cid}`);
+      console.log(`Infura NFT Metadata: https://infura-ipfs.io/ipfs/${cid}`);
 
       /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);

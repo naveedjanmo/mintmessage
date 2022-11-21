@@ -46,7 +46,7 @@ const useFees = () => {
           transactionFeeWei,
           'ether'
         );
-        console.log('---Transaction Fee (eth): ' + transactionFeeEther);
+        // console.log('---Transaction Fee (eth): ' + transactionFeeEther);
 
         // /* fetch eth price */
         const cgBaseEndpoint = `https://api.coingecko.com/api/v3/coins/ethereum`;
