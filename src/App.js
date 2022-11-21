@@ -31,9 +31,11 @@ import Footer from './components/Footer';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.mainnet],
+  [chain.goerli],
+  // [chain.mainnet],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -95,6 +97,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
   const [banner, setBanner] = useState(false);
+  const [image, setImage] = useState();
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
@@ -111,6 +114,7 @@ const App = () => {
       setIsMinted(false);
       /* pick and export div as image */
       const element = document.getElementById('message-export');
+      element.imageSmoothingEnabled = true;
       const canvas = await html2canvas(element, {
           backgroundColor: null,
           scale: 5,
@@ -119,11 +123,30 @@ const App = () => {
         link = document.createElement('a');
       link.href = file;
 
+      const fetchImage = await fetch(file);
+      const blob = await fetchImage.blob();
+      const fileBlob = new File([blob], 'something.png', { type: 'image/png' });
+      setImage(fileBlob);
+
+      // const base64EncodedImageToIPFS = async (base64ImageString) => {
+      //   const fetchImage = await fetch(base64ImageString);
+      //   const blob = await fetchImage.blob();
+      //   const file = new File([blob], 'something.png', { type: 'image/png' });
+      //   const imghash = await addDataToIPFS(file);
+      //   return imghash;
+      // };
+
+      console.log('fileblob ' + fileBlob);
+
       /* TESTING download for testing */
-      // link.download = 'downloaded-image';
+      // link.target = 'downloaded-image';
       // document.body.appendChild(link);
       // link.click();
       // document.body.removeChild(link);
+
+      const imageAdded = await client.add(fileBlob);
+      const imageUrl = `https://ipfs.io/ipfs/${imageAdded.path}`;
+      console.log(`Infura Image: ${imageUrl}`);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -131,11 +154,11 @@ const App = () => {
         name: 'You received a mintmessage!',
         description: `Message sent via mintmessage.xyz`,
         external_url: 'https://mintmessage.xyz',
-        image: file,
+        image: imageUrl,
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
-      console.log(`Infura CID: ${cid}`);
+      console.log(`Infura NFT Metadata: https://infura-ipfs.io/ipfs/${cid}`);
 
       /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);

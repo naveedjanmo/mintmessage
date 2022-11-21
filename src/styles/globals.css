@@ -315,6 +315,7 @@ main {
 
 .message-export {
   position: relative;
+  padding: 4px;
 }
 
 .message-wrap {
@@ -352,6 +353,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .message-body {
@@ -525,8 +527,8 @@ main {
 .animated-box {
   position: relative;
   transform-style: preserve-3d;
-  width: 480px;
-  height: 380px;
+  width: 488px;
+  height: 388px;
 }
 
 .confirm-wrap-mobile {
