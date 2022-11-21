@@ -69,20 +69,21 @@ const client = create({
 /* v1 */
 // - Push to mainnet
 //    - Submit first message to self
-//    - Comment out test code
+//    - OS
+//    - Remove any test code
 //    - Publish repo
 /* v2 */
-// - Move Nav and Button responsive useEffect up (duplicate code)
+// - Move Nav and Button responsive useEffect up
 // - Fix mint on mobile
-// - Add a character count indicator to message input
-// - Add ens support
-// - Better input sanitize
+// - Character count indicator to message input
+// - ens support
+// - Better input clean
 //    - Remove 'https://twitter.com/' if include
-//    - Format discord input
-// - Better error handling (greyed out mint button)
+//    - Auto format discord input
+// - Better error handling
 // - Mouseover tilt message anim
 // - Stages to loading: connecting, exporting message,
-// - Style rainbow components - font
+// - Style rainbow components - font is diff
 
 const App = () => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
