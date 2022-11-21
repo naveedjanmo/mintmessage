@@ -113,6 +113,7 @@ const App = () => {
       setIsLoading(true);
       setIsMinted(false);
       /* pick and export div as image */
+      window.scrollTo(0, 0);
       const element = document.getElementById('message-export');
       const canvas = await html2canvas(element, {
           backgroundColor: null,
