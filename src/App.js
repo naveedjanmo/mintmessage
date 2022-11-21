@@ -29,7 +29,7 @@ import MessageForm from './components/MessageForm';
 import MessagePreview from './components/MessagePreview';
 import Footer from './components/Footer';
 
-/* WAGMI Config */
+/* wagmi config */
 const { chains, provider } = configureChains(
   [chain.mainnet],
   // [chain.goerli],
