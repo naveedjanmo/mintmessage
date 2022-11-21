@@ -69,7 +69,6 @@ const client = create({
 /* v1 */
 // - Push to mainnet
 //    - Submit first message to self
-//    - OS
 //    - Comment out test code
 //    - Publish repo
 /* v2 */
@@ -113,6 +112,7 @@ const App = () => {
       setIsLoading(true);
       setIsMinted(false);
       /* pick and export div as image */
+      window.scrollTo(0, 0);
       const element = document.getElementById('message-export');
       const canvas = await html2canvas(element, {
           backgroundColor: null,
@@ -125,10 +125,10 @@ const App = () => {
       link.href = file;
 
       /* TESTING download for testing */
-      link.download = 'downloaded-image';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // link.download = 'downloaded-image';
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;

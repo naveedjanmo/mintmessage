@@ -18,7 +18,7 @@ function MintButton({ isLoading, setBanner }) {
     };
   }, []);
 
-  if (isConnected) {
+  if (isConnected && width > breakpoint) {
     return (
       <button className='mint-button'>
         {isLoading ? <LoadingIndicator /> : 'Mint'}
