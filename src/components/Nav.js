@@ -29,7 +29,7 @@ const Nav = function ({ setBanner }) {
         <Logo />
         <div className='connect-nav-wrap'>
           <button className='nav-connect-button' onClick={setBanner}>
-            Connect Wallet
+            Connect
           </button>
         </div>
       </div>

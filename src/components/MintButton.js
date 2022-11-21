@@ -36,7 +36,7 @@ function MintButton({ isLoading, setBanner }) {
         className='mint-button'
         onClick={() => showBanner()}
       >
-        Connect Wallet
+        Connect
       </button>
     );
   } else {
