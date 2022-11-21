@@ -10,6 +10,11 @@ function MintButton({ isLoading, setBanner }) {
   const [width, setWidth] = useState(window.innerWidth);
   const breakpoint = 750;
 
+  async function showBanner() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setBanner(true);
+  }
+
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResizeWindow);
@@ -26,7 +31,11 @@ function MintButton({ isLoading, setBanner }) {
     );
   } else if (width < breakpoint) {
     return (
-      <button type='button' className='mint-button' onClick={setBanner}>
+      <button
+        type='button'
+        className='mint-button'
+        onClick={() => showBanner()}
+      >
         Connect Wallet
       </button>
     );

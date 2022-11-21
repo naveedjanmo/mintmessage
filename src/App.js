@@ -65,13 +65,6 @@ const client = create({
   },
 });
 
-// TODO
-/* v1 */
-// - Push to mainnet
-//    - Submit first message to self
-//    - OS
-//    - Remove any test code
-//    - Publish repo
 /* v2 */
 // - Move Nav and Button responsive useEffect up
 // - Fix mint on mobile
