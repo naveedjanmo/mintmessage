@@ -94,7 +94,7 @@ const App = () => {
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
-    message: `Hello! I'm interested in buying Fidenza #313. I made a bunch of offers on OpenSea to no avail. Please reach out via Twitter or Discord if you want to make a deal.`,
+    message: `Hello! I'm interested in buying Fidenza #313. I made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
     twitter: 'naveedjanmo',
     discord: 'nmj#6400',
   };
