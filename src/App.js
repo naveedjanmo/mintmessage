@@ -65,7 +65,6 @@ const client = create({
   },
 });
 
-/* v2 */
 // - Move Nav and Button responsive useEffect up
 // - Fix mint on mobile
 // - Character count indicator to message input
