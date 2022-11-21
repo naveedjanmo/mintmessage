@@ -52,7 +52,7 @@ describe('MintMessage Contract', async function () {
       );
 
     expect(await mintMessage.tokenURI(0)).to.equal(
-      'https://infura-ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt'
+      'https://ipfs.io/ipfs/QmQB6bnynRwVd7APepgHvxrF3Jv2x7AmnftG7iQxTh1vNt'
     );
   });
 

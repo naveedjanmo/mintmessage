@@ -31,11 +31,11 @@ import Footer from './components/Footer';
 
 /* WAGMI Config */
 const { chains, provider } = configureChains(
-  [chain.goerli],
-  // [chain.mainnet],
+  [chain.mainnet],
+  // [chain.goerli],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
-    // alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -70,7 +70,7 @@ const client = create({
 // - Push to mainnet
 //    - Submit first message to self
 //    - OS
-//    - Remove any test code
+//    - Comment out test code
 //    - Publish repo
 /* v2 */
 // - Move Nav and Button responsive useEffect up (duplicate code)
@@ -101,7 +101,7 @@ const App = () => {
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
-    message: `Hello! I'm interested in buying Fidenza #313. I've made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
+    message: `Hello! I'm interested in buying Fidenza #313. I made a bunch of offers on OpenSea to no avail! Please reach out via Twitter or Discord if you want to make a deal.`,
     twitter: 'naveedjanmo',
     discord: 'nmj#6400',
   };
@@ -114,39 +114,21 @@ const App = () => {
       setIsMinted(false);
       /* pick and export div as image */
       const element = document.getElementById('message-export');
-      element.imageSmoothingEnabled = true;
       const canvas = await html2canvas(element, {
           backgroundColor: null,
           scale: 5,
+          scrollX: 0,
+          scrollY: -window.scrollY,
         }),
         file = canvas.toDataURL('image/png'),
         link = document.createElement('a');
       link.href = file;
 
-      const fetchImage = await fetch(file);
-      const blob = await fetchImage.blob();
-      const fileBlob = new File([blob], 'something.png', { type: 'image/png' });
-      setImage(fileBlob);
-
-      // const base64EncodedImageToIPFS = async (base64ImageString) => {
-      //   const fetchImage = await fetch(base64ImageString);
-      //   const blob = await fetchImage.blob();
-      //   const file = new File([blob], 'something.png', { type: 'image/png' });
-      //   const imghash = await addDataToIPFS(file);
-      //   return imghash;
-      // };
-
-      console.log('fileblob ' + fileBlob);
-
       /* TESTING download for testing */
-      // link.target = 'downloaded-image';
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-
-      const imageAdded = await client.add(fileBlob);
-      const imageUrl = `https://ipfs.io/ipfs/${imageAdded.path}`;
-      console.log(`Infura Image: ${imageUrl}`);
+      link.download = 'downloaded-image';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       /* create NFT metadata, include png base64 and upload to IPFS */
       if (!file) return;
@@ -154,7 +136,7 @@ const App = () => {
         name: 'You received a mintmessage!',
         description: `Message sent via mintmessage.xyz`,
         external_url: 'https://mintmessage.xyz',
-        image: imageUrl,
+        image: file,
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
