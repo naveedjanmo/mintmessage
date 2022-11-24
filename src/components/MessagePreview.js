@@ -24,6 +24,7 @@ const MessagePreview = ({
       style={{
         flex: '0 0 auto',
         borderRadius: '1em',
+        boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.05)',
       }}
       // onClick={() => setIsMinted(!isMinted)}
     >

@@ -285,6 +285,7 @@ main {
   font-size: 16px;
   font-weight: 600;
   width: 100%;
+  margin-top: -2px;
 
   color: #fff;
   transition: all 0.25s ease;
