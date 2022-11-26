@@ -3,14 +3,18 @@ import twitterIcon from '../assets/twitter-icon.svg';
 import discordIcon from '../assets/discord-icon.svg';
 
 const ContactTag = ({ platform, values, placeholders }) => {
-  const validTwitter = values.twitter.replace(/[^A-Za-z0-9_]/g, '');
+  const validTwitter = () => {
+    const noLink = values.twitter.replace('https://twitter.com/', '');
+    return noLink.replace(/[^A-Za-z0-9_]/g, '');
+  };
+
   switch (platform) {
     default:
     case 'twitter':
       return (
         <div className='tag'>
           <img src={twitterIcon} alt='Twitter icon' />
-          <span>@{validTwitter ? validTwitter : placeholders.twitter}</span>
+          <span>@{validTwitter() ? validTwitter() : placeholders.twitter}</span>
         </div>
       );
     case 'discord':
