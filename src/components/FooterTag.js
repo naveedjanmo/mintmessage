@@ -19,7 +19,7 @@ const ContactTag = ({ platform }) => {
             alt='Etherscan icon'
             style={{ height: 12 }}
           />
-          <span style={{ marginBottom: 1 }}>Contract</span>
+          <span style={{ marginBottom: 1 }}>Etherscan</span>
         </a>
       );
     case 'github':
@@ -31,7 +31,7 @@ const ContactTag = ({ platform }) => {
           href={`https://github.com/naveedjanmo/mintmessage`}
         >
           <img src={githubIcon} alt='Github icon' style={{ height: 12 }} />
-          <span style={{ marginBottom: 1 }}>Repo</span>
+          <span style={{ marginBottom: 1 }}>Github</span>
         </a>
       );
   }
