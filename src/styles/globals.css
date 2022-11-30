@@ -176,9 +176,22 @@ main {
 }
 
 .input-error {
-  box-shadow: 0 0 0 2px #ff4342;
+  /* outline: none; */
+  border: 2px solid #ff4342;
 
-  outline-offset: -2px;
+  /* box-shadow: 0 0 0 2px #ff4342; */
+  /* outline-offset: -2px; */
+}
+
+/* .input-error:focus {
+  box-shadow: none !important;
+} */
+
+.input-error-message {
+  color: #ff4342;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 0 0 16px;
 }
 
 .input-error:focus {
@@ -385,7 +398,7 @@ main {
 .from-left {
   display: flex;
   flex-direction: row;
-  gap: 4px;
+  gap: 5px;
 }
 
 .from-left p:first-of-type {

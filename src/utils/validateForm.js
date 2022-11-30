@@ -1,10 +1,25 @@
 import { ethers } from 'ethers';
+import { useEnsAddress, useEnsName } from 'wagmi';
+
+const { ethereum } = window;
+const provider = new ethers.providers.Web3Provider(ethereum);
 
 const validateForm = (values) => {
+  const EnsAddress = () => {
+    const ensAddress = useEnsAddress({
+      name: values.toAddress,
+    });
+    return ensAddress.data;
+  };
+
   let errors = {};
   if (!values.toAddress) {
     errors.toAddress = 'Address required';
-  } else if (!ethers.utils.isAddress(values.toAddress)) {
+  }
+
+  if (!ethers.utils.isAddress(values.toAddress)) {
+    errors.toAddress = 'Invalid address';
+  } else if (!EnsAddress) {
     errors.toAddress = 'Invalid address';
   }
 
@@ -13,8 +28,8 @@ const validateForm = (values) => {
   }
 
   if (!values.twitter && !values.discord) {
-    errors.twitter = 'Contact method required';
-    errors.discord = 'Contact method required';
+    errors.contact = 'At least one contact method required';
+    // errors.discord = 'Contact method required';
   }
 
   return errors;

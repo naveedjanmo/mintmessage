@@ -31,11 +31,11 @@ import Footer from './components/Footer';
 
 /* wagmi config */
 const { chains, provider } = configureChains(
-  [chain.mainnet],
-  // [chain.goerli],
+  // [chain.mainnet],
+  [chain.goerli],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
-    // alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -78,6 +78,10 @@ const client = create({
 // - Stages to loading: connecting, exporting message,
 // - Style rainbow components - font is diff
 
+// - polygon
+// - ens
+// - self destruct
+
 const App = () => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
   const { handleChange, handleSubmit, values, errors } = useForm(
@@ -90,7 +94,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
   const [banner, setBanner] = useState(false);
-  const [image, setImage] = useState();
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
@@ -134,7 +137,7 @@ const App = () => {
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
-      console.log(`Infura NFT Metadata: https://infura-ipfs.io/ipfs/${cid}`);
+      console.log(`Infura IPFS: https://infura-ipfs.io/ipfs/${cid}`);
 
       /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -145,7 +148,8 @@ const App = () => {
         signer
       );
 
-      let transaction = await contract.createMessage(cid, values.toAddress);
+      const address = await provider.resolveName(values.toAddress);
+      let transaction = await contract.createMessage(cid, address);
       console.log('Mining...');
       await transaction.wait();
       setTransactionHash(transaction.hash);

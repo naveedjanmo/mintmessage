@@ -31,7 +31,7 @@ const ContactTag = ({ platform }) => {
           href={`https://github.com/naveedjanmo/mintmessage`}
         >
           <img src={githubIcon} alt='Github icon' style={{ height: 12 }} />
-          <span style={{ marginBottom: 1 }}>Github</span>
+          <span style={{ marginBottom: 1 }}>GitHub</span>
         </a>
       );
   }

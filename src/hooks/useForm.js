@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+// if value is ens address, resolve to address, use address
+// if address address, then address
+
 const useForm = (callback, validateForm) => {
   const [values, setValues] = useState({
     toAddress: '',

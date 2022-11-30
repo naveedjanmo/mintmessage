@@ -1,5 +1,6 @@
 import React from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useEnsResolver, useEnsName } from 'wagmi';
+
 import { formatDate, formatAddress } from '../utils/utils';
 import ContactTag from './ContactTag';
 
@@ -8,6 +9,8 @@ import linkOutIcon from '../assets/link-out-icon.svg';
 
 import FlipCard, { BackCard, FrontCard } from './FlipCard';
 import { mintMessageAddress } from '../utils/config';
+
+import ResolveEnsName from './ResolveEnsName';
 
 const MessagePreview = ({
   values,
@@ -18,6 +21,10 @@ const MessagePreview = ({
   tokenId,
 }) => {
   const { address } = useAccount();
+
+  // if (isLoading) return <div>Fetching resolver…</div>;
+  // if (isError) return <div>Error fetching resolver</div>;
+  // return <div>Resolver: {JSON.stringify(data)}</div>;
 
   return (
     <div
@@ -40,8 +47,10 @@ const MessagePreview = ({
                   <div className='from-left'>
                     <p>From</p>
                     <p>
-                      {formatAddress(
-                        address ? address : placeholders.fromAddress
+                      {address ? (
+                        <ResolveEnsName address={address} />
+                      ) : (
+                        formatAddress(placeholders.fromAddress)
                       )}
                     </p>
                   </div>
