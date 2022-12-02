@@ -1,5 +1,4 @@
 import React from 'react';
-import linkOutIcon from '../assets/link-out-icon.svg';
 
 const ConfirmMobile = ({ tokenId, transactionHash }) => {
   return (
@@ -22,7 +21,7 @@ const ConfirmMobile = ({ tokenId, transactionHash }) => {
           rel='noreferrer'
         >
           OpenSea
-          <img src={linkOutIcon} alt='link icon' />
+          <img src='/images/link-out-icon.svg' alt='link icon' />
         </a>
         <a
           className='confirm-link'
@@ -31,7 +30,7 @@ const ConfirmMobile = ({ tokenId, transactionHash }) => {
           rel='noreferrer'
         >
           Etherscan
-          <img src={linkOutIcon} alt='link icon' />
+          <img src='/images/link-out-icon.svg' alt='link icon' />
         </a>
       </div>
       <button

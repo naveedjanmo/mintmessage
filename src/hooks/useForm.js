@@ -8,6 +8,7 @@ const useForm = (callback, validateForm) => {
     discord: '',
   });
   const [errors, setErrors] = useState({});
+  const [charCount, setCharCount] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -16,12 +17,9 @@ const useForm = (callback, validateForm) => {
       ...values,
       [id]: value,
     });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateForm(values));
-    setIsSubmitting(true);
+    if (e.target.id === 'message') {
+      setCharCount(value.length);
+    }
   };
 
   useEffect(() => {
@@ -30,7 +28,31 @@ const useForm = (callback, validateForm) => {
     }
   }, [errors]);
 
-  return { handleChange, handleSubmit, values, setValues, errors };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrors(validateForm(values));
+    setIsSubmitting(true);
+  };
+
+  useEffect(() => {
+    if (values.toAddress) {
+      errors.toAddress = false;
+    }
+
+    if (values.message) {
+      errors.message = false;
+    }
+
+    if (values.twitter) {
+      errors.contact = false;
+    }
+
+    if (values.discord) {
+      errors.contact = false;
+    }
+  }, [values, errors]);
+
+  return { handleChange, handleSubmit, values, errors, charCount };
 };
 
 export default useForm;

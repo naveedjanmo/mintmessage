@@ -1,11 +1,7 @@
-import { ethers } from 'ethers';
-
 const validateForm = (values) => {
   let errors = {};
   if (!values.toAddress) {
     errors.toAddress = 'Address required';
-  } else if (!ethers.utils.isAddress(values.toAddress)) {
-    errors.toAddress = 'Invalid address';
   }
 
   if (!values.message) {
@@ -13,8 +9,7 @@ const validateForm = (values) => {
   }
 
   if (!values.twitter && !values.discord) {
-    errors.twitter = 'Contact method required';
-    errors.discord = 'Contact method required';
+    errors.contact = 'One social required';
   }
 
   return errors;

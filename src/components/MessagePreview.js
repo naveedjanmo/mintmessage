@@ -1,13 +1,12 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
-import { formatDate, formatAddress } from '../utils/utils';
-import ContactTag from './ContactTag';
 
-import closeIcon from '../assets/close-icon.svg';
-import linkOutIcon from '../assets/link-out-icon.svg';
+import { formatDate, formatAddress } from '../utils/utils';
+import { mintMessageAddress } from '../utils/config';
 
 import FlipCard, { BackCard, FrontCard } from './FlipCard';
-import { mintMessageAddress } from '../utils/config';
+import ResolveEnsName from './ResolveEnsName';
+import ContactTag from './ContactTag';
 
 const MessagePreview = ({
   values,
@@ -18,7 +17,6 @@ const MessagePreview = ({
   tokenId,
 }) => {
   const { address } = useAccount();
-
   return (
     <div
       style={{
@@ -26,7 +24,7 @@ const MessagePreview = ({
         borderRadius: '1em',
         boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.05)',
       }}
-      // onClick={() => setIsMinted(!isMinted)}
+      // onClick={() => setIsMinted(!isMinted)} // TESTING
     >
       <FlipCard>
         <FrontCard isCardFlipped={isMinted}>
@@ -40,8 +38,10 @@ const MessagePreview = ({
                   <div className='from-left'>
                     <p>From</p>
                     <p>
-                      {formatAddress(
-                        address ? address : placeholders.fromAddress
+                      {address ? (
+                        <ResolveEnsName address={address} />
+                      ) : (
+                        formatAddress(placeholders.fromAddress)
                       )}
                     </p>
                   </div>
@@ -102,7 +102,7 @@ const MessagePreview = ({
                   className='confirm-close'
                   onClick={() => setIsMinted(!isMinted)}
                 >
-                  <img src={closeIcon} alt='close icon' />
+                  <img src='/images/close-icon.svg' alt='close icon' />
                 </button>
               </div>
               <div className='confirm-message'>
@@ -120,7 +120,7 @@ const MessagePreview = ({
                   rel='noreferrer'
                 >
                   OpenSea
-                  <img src={linkOutIcon} alt='link icon' />
+                  <img src='/images/link-out-icon.svg' alt='link icon' />
                 </a>
                 <a
                   className='confirm-link'
@@ -129,7 +129,7 @@ const MessagePreview = ({
                   rel='noreferrer'
                 >
                   Etherscan
-                  <img src={linkOutIcon} alt='link icon' />
+                  <img src='/images/link-out-icon.svg' alt='link icon' />
                 </a>
               </div>
             </div>

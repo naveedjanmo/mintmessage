@@ -31,11 +31,11 @@ import Footer from './components/Footer';
 
 /* wagmi config */
 const { chains, provider } = configureChains(
-  [chain.mainnet],
-  // [chain.goerli],
+  // [chain.mainnet],
+  [chain.goerli],
   [
-    alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
-    // alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
@@ -51,7 +51,7 @@ const wagmiClient = createClient({
   provider,
 });
 
-/* IPFS Config */
+/* IPFS config */
 const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
 const projectSecret = process.env.REACT_APP_INFURA_KEY;
 const auth =
@@ -68,19 +68,23 @@ const client = create({
 /* v2 */
 // - Move Nav and Button responsive useEffect up
 // - Fix mint on mobile
-// - Character count indicator to message input
-// - ens support
-// - Better input clean
-//    - Remove 'https://twitter.com/' if include
-//    - Auto format discord input
-// - Better error handling
-// - Mouseover tilt message anim
+// - Better mint error handling - if cancel stop perp. loading
 // - Stages to loading: connecting, exporting message,
-// - Style rainbow components - font is diff
+// - Mouseover tilt message anim
+// - Style rainbow components - font is diff (see unlazy)
+
+/* v2 new */
+// - improved input error handling
+// - ens support
+
+/* v3 (new contract?) */
+// - self destruct timer message, cl?
+// - edit/update message - via metadata
+// - clickable contact links on NFT market (would need to be diff format)
 
 const App = () => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
-  const { handleChange, handleSubmit, values, errors } = useForm(
+  const { handleChange, handleSubmit, values, errors, charCount } = useForm(
     createNFT,
     validateForm
   );
@@ -90,7 +94,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMinted, setIsMinted] = useState(false);
   const [banner, setBanner] = useState(false);
-  const [image, setImage] = useState();
 
   const placeholders = {
     fromAddress: '0x0000000000000000000000000000000000000000',
@@ -118,7 +121,7 @@ const App = () => {
         link = document.createElement('a');
       link.href = file;
 
-      /* TESTING download for testing */
+      /* TESTING download */
       // link.download = 'downloaded-image';
       // document.body.appendChild(link);
       // link.click();
@@ -134,7 +137,7 @@ const App = () => {
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
-      console.log(`Infura NFT Metadata: https://infura-ipfs.io/ipfs/${cid}`);
+      console.log(`IPFS: https://ipfs.io/ipfs/${cid}`);
 
       /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -145,7 +148,8 @@ const App = () => {
         signer
       );
 
-      let transaction = await contract.createMessage(cid, values.toAddress);
+      const address = await provider.resolveName(values.toAddress);
+      let transaction = await contract.createMessage(cid, address);
       console.log('Mining...');
       await transaction.wait();
       setTransactionHash(transaction.hash);
@@ -225,6 +229,7 @@ const App = () => {
                 handleSubmit={handleSubmit}
                 isLoading={isLoading}
                 setBanner={setBanner}
+                charCount={charCount}
               />
               <Footer fees={fees} feesLoading={feesLoading} />
             </div>

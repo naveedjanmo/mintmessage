@@ -1,5 +1,6 @@
 import React from 'react';
 import MintButton from './MintButton';
+import ErrorTag from './ErrorTag';
 
 const MessageForm = ({
   isLoading,
@@ -9,6 +10,7 @@ const MessageForm = ({
   handleSubmit,
   errors,
   setBanner,
+  charCount,
 }) => {
   return (
     <div className='form-wrap'>
@@ -20,23 +22,34 @@ const MessageForm = ({
           <label>Recipient Address</label>
           <input
             id='toAddress'
-            className='input small'
+            className={`input small ${errors.toAddress ? 'input-error' : ''}`}
             placeholder={placeholders.fromAddress}
             value={values.toAddress}
             onChange={handleChange}
+            type='text'
           />
+          <ErrorTag errors={errors.toAddress} />
         </div>
 
         <div className='input-wrap'>
           <label>Message</label>
           <textarea
             id='message'
-            className='input large'
+            className={`input large ${errors.message ? 'input-error' : ''}`}
             placeholder={placeholders.message}
             maxLength='320'
             value={values.message}
             onChange={handleChange}
           />
+          {!errors.message ? (
+            <div className='char-counter'>
+              <span>{charCount}/320</span>
+            </div>
+          ) : (
+            ''
+          )}
+
+          <ErrorTag errors={errors.message} />
         </div>
 
         <div className='reply-input-wrap'>
@@ -44,7 +57,7 @@ const MessageForm = ({
             <label>Your Twitter</label>
             <input
               id='twitter'
-              className='input small'
+              className={`input small ${errors.contact ? 'input-error' : ''}`}
               placeholder={placeholders.twitter}
               value={values.twitter}
               onChange={handleChange}
@@ -55,19 +68,15 @@ const MessageForm = ({
             <label>Your Discord</label>
             <input
               id='discord'
-              className='input small'
+              className={`input small ${errors.contact ? 'input-error' : ''}`}
               placeholder={placeholders.discord}
               value={values.discord}
               onChange={handleChange}
             ></input>
+            <ErrorTag errors={errors.contact} />
           </div>
         </div>
-        <MintButton
-          isLoading={isLoading}
-          setBanner={setBanner}
-          values={values}
-          errors={errors}
-        />
+        <MintButton isLoading={isLoading} setBanner={setBanner} />
       </form>
     </div>
   );
