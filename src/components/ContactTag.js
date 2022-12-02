@@ -1,6 +1,4 @@
 import React from 'react';
-import twitterIcon from '../assets/twitter-icon.svg';
-import discordIcon from '../assets/discord-icon.svg';
 
 const ContactTag = ({ platform, values, placeholders }) => {
   const validTwitter = () => {
@@ -13,14 +11,14 @@ const ContactTag = ({ platform, values, placeholders }) => {
     case 'twitter':
       return (
         <div className='tag'>
-          <img src={twitterIcon} alt='Twitter icon' />
+          <img src='/images/twitter-icon.svg' alt='Twitter icon' />
           <span>@{validTwitter() ? validTwitter() : placeholders.twitter}</span>
         </div>
       );
     case 'discord':
       return (
         <div className='tag'>
-          <img src={discordIcon} alt='Discord icon' />
+          <img src='/images/discord-icon.svg' alt='Discord icon' />
           <span>{values.discord ? values.discord : placeholders.discord}</span>
         </div>
       );

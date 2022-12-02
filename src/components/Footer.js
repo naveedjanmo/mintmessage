@@ -1,8 +1,6 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import FooterTag from './FooterTag';
-
-import gasIcon from '../assets/gas-icon.svg';
 import LoadingIndicator from './LoadingIndicator';
 
 const Footer = ({ fees, feesLoading }) => {
@@ -16,7 +14,7 @@ const Footer = ({ fees, feesLoading }) => {
       {isConnected ? (
         <>
           <div className='footer-info'>
-            <img src={gasIcon} alt='gas icon' />
+            <img src='/images/gas-icon.svg' alt='gas icon' />
             {feesLoading ? (
               <LoadingIndicator color='dark' />
             ) : (

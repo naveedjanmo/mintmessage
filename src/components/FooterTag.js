@@ -1,7 +1,5 @@
 import React from 'react';
 import { mintMessageAddress } from '../utils/config';
-import etherscanIcon from '../assets/etherscan-icon.svg';
-import githubIcon from '../assets/github-icon.svg';
 
 const ContactTag = ({ platform }) => {
   switch (platform) {
@@ -15,7 +13,7 @@ const ContactTag = ({ platform }) => {
           href={`https://etherscan.io/address/${mintMessageAddress}#code`}
         >
           <img
-            src={etherscanIcon}
+            src='/images/etherscan-icon.svg'
             alt='Etherscan icon'
             style={{ height: 12 }}
           />
@@ -30,7 +28,11 @@ const ContactTag = ({ platform }) => {
           rel='noreferrer'
           href={`https://github.com/naveedjanmo/mintmessage`}
         >
-          <img src={githubIcon} alt='Github icon' style={{ height: 12 }} />
+          <img
+            src='/images/github-icon.svg'
+            alt='Github icon'
+            style={{ height: 12 }}
+          />
           <span style={{ marginBottom: 1 }}>GitHub</span>
         </a>
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 import MintButton from './MintButton';
-import { useEnsAddress, useEnsName } from 'wagmi';
+import ErrorTag from './ErrorTag';
 
 const MessageForm = ({
   isLoading,
@@ -10,15 +10,8 @@ const MessageForm = ({
   handleSubmit,
   errors,
   setBanner,
+  charCount,
 }) => {
-  const ensAddress = useEnsAddress({
-    name: values.toAddress,
-  });
-
-  const ensName = useEnsName({
-    address: values.toAddress,
-  });
-
   return (
     <div className='form-wrap'>
       <p className='welcome-message'>
@@ -33,10 +26,9 @@ const MessageForm = ({
             placeholder={placeholders.fromAddress}
             value={values.toAddress}
             onChange={handleChange}
+            type='text'
           />
-          {errors.toAddress && (
-            <p className='input-error-message'>{errors.toAddress}</p>
-          )}
+          <ErrorTag errors={errors.toAddress} />
         </div>
 
         <div className='input-wrap'>
@@ -49,9 +41,15 @@ const MessageForm = ({
             value={values.message}
             onChange={handleChange}
           />
-          {errors.message && (
-            <p className='input-error-message'>{errors.message}</p>
+          {!errors.message ? (
+            <div className='char-counter'>
+              <span>{charCount}/320</span>
+            </div>
+          ) : (
+            ''
           )}
+
+          <ErrorTag errors={errors.message} />
         </div>
 
         <div className='reply-input-wrap'>
@@ -64,9 +62,6 @@ const MessageForm = ({
               value={values.twitter}
               onChange={handleChange}
             ></input>
-            {errors.contact && (
-              <p className='input-error-message'>{errors.contact}</p>
-            )}
           </div>
 
           <div className='input-wrap'>
@@ -78,6 +73,7 @@ const MessageForm = ({
               value={values.discord}
               onChange={handleChange}
             ></input>
+            <ErrorTag errors={errors.contact} />
           </div>
         </div>
         <MintButton

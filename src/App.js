@@ -51,7 +51,7 @@ const wagmiClient = createClient({
   provider,
 });
 
-/* IPFS Config */
+/* IPFS config */
 const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
 const projectSecret = process.env.REACT_APP_INFURA_KEY;
 const auth =
@@ -68,23 +68,23 @@ const client = create({
 /* v2 */
 // - Move Nav and Button responsive useEffect up
 // - Fix mint on mobile
-// - Character count indicator to message input
-// - ens support
-// - Better input clean
-//    - Remove 'https://twitter.com/' if include
-//    - Auto format discord input
-// - Better error handling
-// - Mouseover tilt message anim
+// - Better mint error handling - if cancel stop perp. loading
 // - Stages to loading: connecting, exporting message,
-// - Style rainbow components - font is diff
+// - Mouseover tilt message anim
+// - Style rainbow components - font is diff (see unlazy)
 
-// - polygon
-// - ens
-// - self destruct
+/* v2 new */
+// - improved input error handling
+// - ens support
+
+/* v3 (new contract?) */
+// - self destruct timer message, cl?
+// - edit/update message - via metadata
+// - clickable contact links on NFT market (would need to be diff format)
 
 const App = () => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
-  const { handleChange, handleSubmit, values, errors } = useForm(
+  const { handleChange, handleSubmit, values, errors, charCount } = useForm(
     createNFT,
     validateForm
   );
@@ -229,6 +229,7 @@ const App = () => {
                 handleSubmit={handleSubmit}
                 isLoading={isLoading}
                 setBanner={setBanner}
+                charCount={charCount}
               />
               <Footer fees={fees} feesLoading={feesLoading} />
             </div>

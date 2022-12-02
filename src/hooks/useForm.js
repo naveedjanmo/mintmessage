@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// if value is ens address, resolve to address, use address
-// if address address, then address
-
 const useForm = (callback, validateForm) => {
   const [values, setValues] = useState({
     toAddress: '',
@@ -11,7 +8,7 @@ const useForm = (callback, validateForm) => {
     discord: '',
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [charCount, setCharCount] = useState(0);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -19,21 +16,33 @@ const useForm = (callback, validateForm) => {
       ...values,
       [id]: value,
     });
+    setCharCount(value.length);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validateForm(values));
-    setIsSubmitting(true);
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      callback();
+    if (values.toAddress) {
+      errors.toAddress = false;
     }
-  }, [errors]);
 
-  return { handleChange, handleSubmit, values, setValues, errors };
+    if (values.message) {
+      errors.message = false;
+    }
+
+    if (values.twitter) {
+      errors.contact = false;
+    }
+
+    if (values.discord) {
+      errors.contact = false;
+    }
+  }, [values, errors]);
+
+  return { handleChange, handleSubmit, values, setValues, errors, charCount };
 };
 
 export default useForm;
