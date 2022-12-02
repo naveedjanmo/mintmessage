@@ -24,7 +24,7 @@ const MessagePreview = ({
         borderRadius: '1em',
         boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.05)',
       }}
-      // onClick={() => setIsMinted(!isMinted)} // TEST CODE
+      // onClick={() => setIsMinted(!isMinted)} // TESTING
     >
       <FlipCard>
         <FrontCard isCardFlipped={isMinted}>

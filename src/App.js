@@ -121,7 +121,7 @@ const App = () => {
         link = document.createElement('a');
       link.href = file;
 
-      /* TESTING download for testing */
+      /* TESTING download */
       // link.download = 'downloaded-image';
       // document.body.appendChild(link);
       // link.click();
@@ -137,7 +137,7 @@ const App = () => {
       });
       const added = await client.add(data);
       const cid = `${added.path}`;
-      console.log(`Infura IPFS: https://infura-ipfs.io/ipfs/${cid}`);
+      console.log(`IPFS: https://ipfs.io/ipfs/${cid}`);
 
       /* pop wallet and run createMessage */
       const provider = new ethers.providers.Web3Provider(ethereum);

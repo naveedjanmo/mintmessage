@@ -76,12 +76,7 @@ const MessageForm = ({
             <ErrorTag errors={errors.contact} />
           </div>
         </div>
-        <MintButton
-          isLoading={isLoading}
-          setBanner={setBanner}
-          values={values}
-          errors={errors}
-        />
+        <MintButton isLoading={isLoading} setBanner={setBanner} />
       </form>
     </div>
   );

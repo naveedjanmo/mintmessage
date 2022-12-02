@@ -9,6 +9,7 @@ const useForm = (callback, validateForm) => {
   });
   const [errors, setErrors] = useState({});
   const [charCount, setCharCount] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -16,12 +17,21 @@ const useForm = (callback, validateForm) => {
       ...values,
       [id]: value,
     });
-    setCharCount(value.length);
+    if (e.target.id === 'message') {
+      setCharCount(value.length);
+    }
   };
+
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isSubmitting) {
+      callback();
+    }
+  }, [errors]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validateForm(values));
+    setIsSubmitting(true);
   };
 
   useEffect(() => {
@@ -42,7 +52,7 @@ const useForm = (callback, validateForm) => {
     }
   }, [values, errors]);
 
-  return { handleChange, handleSubmit, values, setValues, errors, charCount };
+  return { handleChange, handleSubmit, values, errors, charCount };
 };
 
 export default useForm;
