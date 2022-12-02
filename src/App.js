@@ -31,11 +31,11 @@ import Footer from './components/Footer';
 
 /* wagmi config */
 const { chains, provider } = configureChains(
-  // [chain.mainnet],
-  [chain.goerli],
+  [chain.mainnet],
+  // [chain.goerli],
   [
-    // alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
-    alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
+    alchemyProvider({ apiKey: process.env.REACT_APP_MAINNET_ALCHEMY_ID }),
+    // alchemyProvider({ apiKey: process.env.REACT_APP_GOERLI_ALCHEMY_ID }),
     publicProvider(),
   ]
 );
